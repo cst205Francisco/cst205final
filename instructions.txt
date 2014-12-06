@@ -1,5 +1,5 @@
 1. git clone https://github.com/cst205Francisco/cst205final.git
-2. git add remote (nickname you like here) https://github.com/cst205Francisco/cst205final.git
+2. git remote add (nickname you like here) https://github.com/cst205Francisco/cst205final.git
 3. git remote -v   (should show: nickname	  https://github.com/cst205Francisco/cst205final.git(fetch)
 		   	         nickname	  https://github.com/cst205Francisco/cst205final.git(pull)  )
 
