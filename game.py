@@ -38,3 +38,124 @@ class GridPoint:
 		self.eastObj = objIn
 	def getEastObj(self):
 		return self.eastObj
+
+class Hero:
+	def __init__(self, xposIn, yposIn):
+		self.xpos = xposIn
+		self.ypos = yposIn
+	def setX(self, x):
+		self.xpos = x
+	def getX(self):
+		return self.xpos
+	def setY(self, y):
+		self.ypos = y
+	def getY(self):
+		return self.ypos
+		
+
+def greenScreenOffset(pic, bg, offX, offY):
+	for x in range(0, getWidth(pic)):
+		for y in range(0, getHeight(pic)):
+			p = getPixel(pic, x, y)
+			color = getColor(p)
+			if distance(color, green) > 200.0:
+				setColor(getPixel(bg, x+offX, y+offY), color)
+	return bg
+
+def down(hero, pic, bg):
+	x = hero.getX()
+	y = hero.getY()
+
+	greenScreenOffset(pic, bg, x, y+40)
+
+	hero.setX(x)
+	hero.setY(y+40)
+
+def moveUp(hero, pic, bg):
+	x = hero.getX()
+	y = hero.getY()
+
+	greenScreenOffset(pic, bg, x, y-40)
+	repaint(bg)
+
+	hero.setX(x)
+	hero.setY(y-40)
+
+def moveDown(hero, pic, bg):
+	x = hero.getX()
+	y = hero.getY()
+
+	greenScreenOffset(pic, bg, x, y+40)
+	repaint(bg)
+
+	hero.setX(x)
+	hero.setY(y+40)
+
+def moveLeft(hero, pic, bg):
+	x = hero.getX()
+	y = hero.getY()
+
+	greenScreenOffset(pic, bg, x-40, y)
+	repaint(bg)
+
+	hero.setX(x-40)
+	hero.setY(y)
+
+def moveRight(hero, pic, bg):
+	x = hero.getX()
+	y = hero.getY()
+
+	greenScreenOffset(pic, bg, x+40, y)
+	repaint(bg)
+
+	hero.setX(x+40)
+	hero.setY(y)
+
+def startGame():
+	
+	game = "on"
+
+	filename = '/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg'
+	pic = makePicture(filename)
+
+	filename2 = '/Users/franciscogutierrez/cst205/final/cst205final/map.jpg'
+	bg = makePicture(filename2)
+
+	mario = Hero(0,0)
+
+	while game != "over":
+		userInput = requestString("go where?")
+		userInput = userInput.lower()
+
+		if userInput == "exit":
+			game = "over"
+
+		if userInput == "down":
+			moveDown(mario, pic, bg)
+
+		if userInput == "up":
+			moveUp(mario, pic, bg)
+
+		if userInput == "left":
+			moveLeft(mario, pic, bg)
+
+		if userInput == "right":
+			moveRight(mario, pic, bg)
+
+	
+
+	#pic = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg')
+
+	
+	#bg = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/map.jpg')
+
+	
+	
+
+
+
+
+
+
+
+
