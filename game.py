@@ -62,49 +62,52 @@ def greenScreenOffset(pic, bg, offX, offY):
 				setColor(getPixel(bg, x+offX, y+offY), color)
 	return bg
 
-def down(hero, pic, bg):
+def coverSteps(bg, lockedBG, offX, offY):
+	for x in range(offX, offX+40):
+		for y in range(offY, offY+40):
+			p = getPixel(lockedBG, x, y)
+			color = getColor(p)
+			setColor(getPixel(bg, x, y), color)
+	return bg
+
+def moveUp(hero, pic, bg, lockedBG):
 	x = hero.getX()
 	y = hero.getY()
 
-	greenScreenOffset(pic, bg, x, y+40)
-
-	hero.setX(x)
-	hero.setY(y+40)
-
-def moveUp(hero, pic, bg):
-	x = hero.getX()
-	y = hero.getY()
-
+	coverSteps(bg, lockedBG, x, y)
 	greenScreenOffset(pic, bg, x, y-40)
 	repaint(bg)
 
 	hero.setX(x)
 	hero.setY(y-40)
 
-def moveDown(hero, pic, bg):
+def moveDown(hero, pic, bg, lockedBG):
 	x = hero.getX()
 	y = hero.getY()
 
+	coverSteps(bg, lockedBG, x, y)
 	greenScreenOffset(pic, bg, x, y+40)
 	repaint(bg)
 
 	hero.setX(x)
 	hero.setY(y+40)
 
-def moveLeft(hero, pic, bg):
+def moveLeft(hero, pic, bg, lockedBG):
 	x = hero.getX()
 	y = hero.getY()
 
+	coverSteps(bg, lockedBG, x, y)
 	greenScreenOffset(pic, bg, x-40, y)
 	repaint(bg)
 
 	hero.setX(x-40)
 	hero.setY(y)
 
-def moveRight(hero, pic, bg):
+def moveRight(hero, pic, bg, lockedBG):
 	x = hero.getX()
 	y = hero.getY()
 
+	coverSteps(bg, lockedBG, x, y)
 	greenScreenOffset(pic, bg, x+40, y)
 	repaint(bg)
 
@@ -121,6 +124,8 @@ def startGame():
 	filename2 = '/Users/franciscogutierrez/cst205/final/cst205final/map.jpg'
 	bg = makePicture(filename2)
 
+	lockedBG = makePicture(filename2)
+
 	mario = Hero(0,0)
 
 	while game != "over":
@@ -131,16 +136,16 @@ def startGame():
 			game = "over"
 
 		if userInput == "down":
-			moveDown(mario, pic, bg)
+			moveDown(mario, pic, bg, lockedBG)
 
 		if userInput == "up":
-			moveUp(mario, pic, bg)
+			moveUp(mario, pic, bg, lockedBG)
 
 		if userInput == "left":
-			moveLeft(mario, pic, bg)
+			moveLeft(mario, pic, bg, lockedBG)
 
 		if userInput == "right":
-			moveRight(mario, pic, bg)
+			moveRight(mario, pic, bg, lockedBG)
 
 	
 
