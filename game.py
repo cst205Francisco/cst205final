@@ -6,6 +6,20 @@
 
 import tempfile
 import urllib
+import java.lang
+
+#get user OS, either 'mac' or 'win'
+def getOS():
+	os = ""
+	ver = sys.platform.lower()
+	ver = java.lang.System.getProperty("os.name").lower()
+	if ver.startswith('mac'):
+		os = "mac"
+	if ver.startswith('win'):
+		os = "win"
+	return os
+
+
 #tempfile.gettempdir()
 #tempFilePath = tempfile.gettempdir() + "mario.jpg"
 
@@ -389,45 +403,87 @@ def startGame():
 
 	game = "on"
 	
-	filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
-	pic = makePicture(filename)
+	
 
-	filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
-	bg = makePicture(filename2)
+	#gamePhase - menu, map, battle, game over
 
-	filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
-	lockedBG = makePicture(filename3)
+	gamePhase = "menu"
 
-	mario = Hero(360,440)
-	greenScreenOffset(pic, bg, 360, 440)
+	filenameMenu = "/Users/franciscogutierrez/cst205/final/cst205final/Images/menu/MenuGoldBorder.jpg"
+	bg = makePicture(filenameMenu)
 
 	show(bg)
 
-	currentGridPoint = j12
-
 
 	while game != "over":
-		userInput = requestString("go where?")
-		userInput = userInput.lower()
+
+		if gamePhase == "menu":
+			#choose your character
+			userInput = requestString("Choose your character!")
+			userInput = userInput.lower()
+
+			if userInput == "1":
+				printNow("one selected")
+				game = "over"
+				
+
+			if userInput == "2":
+				printNow("two selected")
+				gamePhase = "menu-map"
+				
+
+			if userInput == "3":
+				printNow("3 selected")
+				game = "over"
+				
+
+			if userInput == "4":
+				printNow("four selected")
+				game = "over"
+				
+
+		if gamePhase == "menu-map":
+			filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
+			pic = makePicture(filename)
+
+			filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
+			bg = makePicture(filename2)
+
+			filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
+			lockedBG = makePicture(filename3)
+
+			mario = Hero(360,440)
+			greenScreenOffset(pic, bg, 360, 440)
+
+			repaint(bg)
+
+			currentGridPoint = j12
+
+			gamePhase = "map"
+
+
+		if gamePhase == "map":
+			userInput = requestString("go where?")
+			userInput = userInput.lower()
+
+			if userInput == "down" and currentGridPoint.hasSouth():
+				moveDown(mario, pic, bg, lockedBG)
+				currentGridPoint = currentGridPoint.getSouthObj()
+
+			if userInput == "up" and currentGridPoint.hasNorth():
+				moveUp(mario, pic, bg, lockedBG)
+				currentGridPoint = currentGridPoint.getNorthObj()
+
+			if userInput == "left" and currentGridPoint.hasWest():
+				moveLeft(mario, pic, bg, lockedBG)
+				currentGridPoint = currentGridPoint.getWestObj()
+
+			if userInput == "right" and currentGridPoint.hasEast():
+				moveRight(mario, pic, bg, lockedBG)
+				currentGridPoint = currentGridPoint.getEastObj()
 
 		if userInput == "exit":
 			game = "over"
-
-		if userInput == "down" and currentGridPoint.hasSouth():
-			moveDown(mario, pic, bg, lockedBG)
-			currentGridPoint = currentGridPoint.getSouthObj()
-
-		if userInput == "up" and currentGridPoint.hasNorth():
-			moveUp(mario, pic, bg, lockedBG)
-			currentGridPoint = currentGridPoint.getNorthObj()
-
-		if userInput == "left" and currentGridPoint.hasWest():
-			moveLeft(mario, pic, bg, lockedBG)
-			currentGridPoint = currentGridPoint.getWestObj()
-
-		if userInput == "right" and currentGridPoint.hasEast():
-			moveRight(mario, pic, bg, lockedBG)
-			currentGridPoint = currentGridPoint.getEastObj()
 
 #======================================================================================================================
 

@@ -1,0 +1,32 @@
+>>> import tempfile
+>>> tempfile.gettempdir()
+'/var/folders/7x/_872hs4d02d118y8c_tp3vrc0000gn/T/'
+>>> data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', 'mario.jpg')
+The error was:urllib
+Name not found globally.
+A local or global name could not be found. You need to define the function or variable before you try to use it in any way.
+>>> tempFilePath = tempfile.gettempdir() + "mario.jpg"
+>>> data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', tempFilePath)
+The error was:urllib
+Name not found globally.
+A local or global name could not be found. You need to define the function or variable before you try to use it in any way.
+>>> tempFilePath
+'/var/folders/7x/_872hs4d02d118y8c_tp3vrc0000gn/T/mario.jpg'
+>>> import urllib
+>>> data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', tempFilePath)
+>>> data
+('/var/folders/7x/_872hs4d02d118y8c_tp3vrc0000gn/T/mario.jpg', <httplib.HTTPMessage instance 30>)
+>>> pic22 = makePicture(data)
+The error was:isabs() argument must be a str or unicode object, not 'tuple' object
+Inappropriate argument type.
+An attempt was made to call a function with a parameter of an invalid type. This means that you did something such as trying to pass a string to a method that is expecting an integer.
+>>> show(data)
+show(picture): Input is not a picture
+The error was:
+Inappropriate argument value (of correct type).
+An error occurred attempting to pass an argument to a function.
+>>> data
+('/var/folders/7x/_872hs4d02d118y8c_tp3vrc0000gn/T/mario.jpg', <httplib.HTTPMessage instance 30>)
+>>> pic22 = makePicture(tempFilePath)
+>>> show(pic22)
+>>> 
