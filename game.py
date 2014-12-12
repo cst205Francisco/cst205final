@@ -19,6 +19,17 @@ def getOS():
 		os = "win"
 	return os
 
+'''
+if getOS() == "win":
+	#windows
+	tempFilePath = tempfile.gettempdir() + "\\file.jpg"
+else:
+	#mac/linux
+	tempFilePath = tempfile.gettempdir() + "file.jpg"
+
+data = urllib.urlretrieve('URL', tempFilePath)
+pic = makePicture(tempFilePath)
+'''
 
 #tempfile.gettempdir()
 #tempFilePath = tempfile.gettempdir() + "mario.jpg"

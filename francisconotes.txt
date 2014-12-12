@@ -6,10 +6,7 @@ The error was:urllib
 Name not found globally.
 A local or global name could not be found. You need to define the function or variable before you try to use it in any way.
 >>> tempFilePath = tempfile.gettempdir() + "mario.jpg"
->>> data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', tempFilePath)
-The error was:urllib
-Name not found globally.
-A local or global name could not be found. You need to define the function or variable before you try to use it in any way.
+
 >>> tempFilePath
 '/var/folders/7x/_872hs4d02d118y8c_tp3vrc0000gn/T/mario.jpg'
 >>> import urllib
@@ -30,3 +27,14 @@ An error occurred attempting to pass an argument to a function.
 >>> pic22 = makePicture(tempFilePath)
 >>> show(pic22)
 >>> 
+
+
+
+
+ver = sys.platform.lower()
+import java.lang
+ver = java.lang.System.getProperty("os.name").lower()
+ver
+
+'mac os x'
+'windows vista'
