@@ -38,3 +38,14 @@ ver
 
 'mac os x'
 'windows vista'
+
+
+
+
+
+The error was:Can't find a usable temporary directory amongst ['/tmp', '/var/tmp', '/usr/tmp', 'C:\\Program Files (x86)\\JES 4.3']
+I/O operation failed.
+I tried to read a file, and couldn't.  Are you sure that file exists? If it does exist, did you specify the correct directory/folder?
+Please check line 425 of C:\Users\Me\Downloads\FINAL PROJECT FILES\game.py
+
+

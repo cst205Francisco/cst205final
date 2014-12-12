@@ -31,13 +31,6 @@ data = urllib.urlretrieve('URL', tempFilePath)
 pic = makePicture(tempFilePath)
 '''
 
-#tempfile.gettempdir()
-#tempFilePath = tempfile.gettempdir() + "mario.jpg"
-
-#data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', 'mario.jpg')
-#data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', tempFilePath)
-
-
 class GridPoint:
 	def __init__(self, hasNorthIn, hasSouthIn, hasWestIn, hasEastIn):
 		self.northBool = hasNorthIn
@@ -103,6 +96,14 @@ def coverSteps(bg, lockedBG, offX, offY):
 			color = getColor(p)
 			setColor(getPixel(bg, x, y), color)
 	return bg
+
+def replaceBG(oldBG, newBG):
+	for x in range(0, getWidth(oldBG)):
+		for y in range(0, getHeight(oldBG)):
+			p = getPixel(newBG, x, y)
+			color = getColor(p)
+			setColor(getPixel(oldBG, x, y), color)
+	return oldBG
 
 def moveUp(hero, pic, bg, lockedBG):
 	x = hero.getX()
@@ -430,9 +431,6 @@ def startGame():
 	data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/menu.jpg', tempFilePath)
 	bg = makePicture(tempFilePath)
 
-	#filenameMenu = "/Users/franciscogutierrez/cst205/final/cst205final/Images/menu/MenuGoldBorder.jpg"
-	#bg = makePicture(filenameMenu)
-
 	show(bg)
 
 
@@ -444,26 +442,64 @@ def startGame():
 			userInput = userInput.lower()
 
 			if userInput == "1":
-				printNow("one selected")
-				game = "over"
-				
+				#Link
+				gamePhase = "menu-map"
+
+				if getOS() == "win":
+					#windows
+					tempFilePath = tempfile.gettempdir() + "\\linkSmall.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "linkSmall.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/linkSmall.jpg', tempFilePath)
+				pic = makePicture(tempFilePath)
 
 			if userInput == "2":
-				printNow("two selected")
+				#Turtle
 				gamePhase = "menu-map"
-				
+
+				if getOS() == "win":
+					#windows
+					tempFilePath = tempfile.gettempdir() + "\\turtleSmall.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "turtleSmall.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/turtleSmall.jpg', tempFilePath)
+				pic = makePicture(tempFilePath)
 
 			if userInput == "3":
-				printNow("3 selected")
-				game = "over"
-				
+				#Princess Zelda
+				gamePhase = "menu-map"
+
+				if getOS() == "win":
+					#windows
+					tempFilePath = tempfile.gettempdir() + "\\princessSmall.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "princessSmall.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/princessSmall.jpg', tempFilePath)
+				pic = makePicture(tempFilePath)
 
 			if userInput == "4":
-				printNow("four selected")
-				game = "over"
+				#IronMan
+				gamePhase = "menu-map"
+
+				if getOS() == "win":
+					#windows
+					tempFilePath = tempfile.gettempdir() + "\\ironManSmall.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "ironManSmall.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/ironManSmall.jpg', tempFilePath)
+				pic = makePicture(tempFilePath)
 				
 
 		if gamePhase == "menu-map":
+			'''
 			if getOS() == "win":
 				#windows
 				tempFilePath = tempfile.gettempdir() + "\\mario.jpg"
@@ -475,6 +511,7 @@ def startGame():
 			pic = makePicture(tempFilePath)
 			#filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
 			#pic = makePicture(filename)
+			'''
 
 			if getOS() == "win":
 				#windows
@@ -484,7 +521,7 @@ def startGame():
 				tempFilePath = tempfile.gettempdir() + "bg.jpg"
 
 			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/bg.jpg', tempFilePath)
-			bg = makePicture(tempFilePath)
+			mapBG = makePicture(tempFilePath)
 			#filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
 			#bg = makePicture(filename2)
 
@@ -500,7 +537,12 @@ def startGame():
 			#filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
 			#lockedBG = makePicture(filename3)
 
-			mario = Hero(360,440)
+			myHero = Hero(360,440)
+
+			replaceBG(bg, mapBG)
+
+			#replaceBG is a VERY slow function, since its replacing every pixel. Maybe consider adding a "loading..." text before the complete redraw so user gets patient.
+
 			greenScreenOffset(pic, bg, 360, 440)
 
 			repaint(bg)
@@ -515,19 +557,19 @@ def startGame():
 			userInput = userInput.lower()
 
 			if userInput == "down" and currentGridPoint.hasSouth():
-				moveDown(mario, pic, bg, lockedBG)
+				moveDown(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getSouthObj()
 
 			if userInput == "up" and currentGridPoint.hasNorth():
-				moveUp(mario, pic, bg, lockedBG)
+				moveUp(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getNorthObj()
 
 			if userInput == "left" and currentGridPoint.hasWest():
-				moveLeft(mario, pic, bg, lockedBG)
+				moveLeft(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getWestObj()
 
 			if userInput == "right" and currentGridPoint.hasEast():
-				moveRight(mario, pic, bg, lockedBG)
+				moveRight(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getEastObj()
 
 		if userInput == "exit":
@@ -810,7 +852,8 @@ def treasureDrinkFunc():
 
 #======================================================================================================================
 
-	#pic = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg')
 
-	
-	#bg = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/map.jpg')
+
+
+
+
