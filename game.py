@@ -4,6 +4,15 @@
 
 #project chimichanga
 
+import tempfile
+import urllib
+#tempfile.gettempdir()
+#tempFilePath = tempfile.gettempdir() + "mario.jpg"
+
+#data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', 'mario.jpg')
+#data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/mario.jpg', tempFilePath)
+
+
 class GridPoint:
 	def __init__(self, hasNorthIn, hasSouthIn, hasWestIn, hasEastIn):
 		self.northBool = hasNorthIn
