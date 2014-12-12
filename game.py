@@ -192,7 +192,7 @@ def startGame():
 	n7 = GridPoint(1,1,0,0)
 	n8 = GridPoint(1,1,0,0)
 	b9 = GridPoint(0,1,0,0)
-	e9 = GridPoint(1,0,1,0)
+	e9 = GridPoint(0,1,0,1)
 	f9 = GridPoint(0,0,1,1)
 	g9 = GridPoint(0,0,1,1)
 	h9 = GridPoint(0,1,1,0)
@@ -352,6 +352,7 @@ def startGame():
 	n10.setWestObj(m10)
 	n10.setEastObj(o10)
 	o10.setNorthObj(o9)
+	o10.setSouthObj(o11)
 	o10.setWestObj(n10)
 	b11.setNorthObj(b10)
 	b11.setEastObj(c11)
@@ -380,14 +381,19 @@ def startGame():
 	filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
 	pic = makePicture(filename)
 
-	filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/map.jpg"
+	filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
 	bg = makePicture(filename2)
 
-	lockedBG = makePicture(filename2)
+	filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
+	lockedBG = makePicture(filename3)
 
-	mario = Hero(0,0)
+	mario = Hero(360,440)
+	greenScreenOffset(pic, bg, 360, 440)
 
 	show(bg)
+
+	currentGridPoint = j12
+
 
 	while game != "over":
 		userInput = requestString("go where?")
@@ -396,17 +402,21 @@ def startGame():
 		if userInput == "exit":
 			game = "over"
 
-		if userInput == "down":
+		if userInput == "down" and currentGridPoint.hasSouth():
 			moveDown(mario, pic, bg, lockedBG)
+			currentGridPoint = currentGridPoint.getSouthObj()
 
-		if userInput == "up":
+		if userInput == "up" and currentGridPoint.hasNorth():
 			moveUp(mario, pic, bg, lockedBG)
+			currentGridPoint = currentGridPoint.getNorthObj()
 
-		if userInput == "left":
+		if userInput == "left" and currentGridPoint.hasWest():
 			moveLeft(mario, pic, bg, lockedBG)
+			currentGridPoint = currentGridPoint.getWestObj()
 
-		if userInput == "right":
+		if userInput == "right" and currentGridPoint.hasEast():
 			moveRight(mario, pic, bg, lockedBG)
+			currentGridPoint = currentGridPoint.getEastObj()
 
 #======================================================================================================================
 
