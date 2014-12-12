@@ -593,6 +593,7 @@ def swordFunc():
   global inventory
   global sword
   global userInput
+  global hitpoints
   # List of words to obtain items
   swordList = ["sword", "get sword", "take sword", "pickup sword", "pull sword", "pick up sword"]
   # Ask for user input
@@ -622,6 +623,7 @@ def shieldFunc():
   global inventory
   global shield
   global userInput
+  global hitpoints
   # List of words to obtain items
   shieldList = ["shield", "get shield", "take shield", "pickup shield", "pull shield", "pick up shield"]
   # Ask for user input
@@ -682,6 +684,7 @@ def treasureDrinkFunc():
   global userInput
   global treasure
   global treasureDrink
+  global hitpoints
   # List of words to obtain items 
   drinkList = ["open", "use", "treasure", "chest", "get treasure", "take treasure", "pickup treasure", "pull treasure", "pick up treasure"]
   # Ask for user input
