@@ -92,7 +92,7 @@ def greenScreenOffset(pic, bg, offX, offY):
 		for y in range(0, getHeight(pic)):
 			p = getPixel(pic, x, y)
 			color = getColor(p)
-			if distance(color, green) > 200.0:
+			if distance(color, blue) > 200.0:
 				setColor(getPixel(bg, x+offX, y+offY), color)
 	return bg
 
