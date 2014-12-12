@@ -420,8 +420,18 @@ def startGame():
 
 	gamePhase = "menu"
 
-	filenameMenu = "/Users/franciscogutierrez/cst205/final/cst205final/Images/menu/MenuGoldBorder.jpg"
-	bg = makePicture(filenameMenu)
+	if getOS() == "win":
+		#windows
+		tempFilePath = tempfile.gettempdir() + "\\menu.jpg"
+	else:
+		#mac/linux
+		tempFilePath = tempfile.gettempdir() + "menu.jpg"
+
+	data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/menu.jpg', tempFilePath)
+	bg = makePicture(tempFilePath)
+
+	#filenameMenu = "/Users/franciscogutierrez/cst205/final/cst205final/Images/menu/MenuGoldBorder.jpg"
+	#bg = makePicture(filenameMenu)
 
 	show(bg)
 
@@ -454,14 +464,41 @@ def startGame():
 				
 
 		if gamePhase == "menu-map":
-			filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
-			pic = makePicture(filename)
+			if getOS() == "win":
+				#windows
+				tempFilePath = tempfile.gettempdir() + "\\mario.jpg"
+			else:
+				#mac/linux
+				tempFilePath = tempfile.gettempdir() + "mario.jpg"
 
-			filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
-			bg = makePicture(filename2)
+			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/mario.jpg', tempFilePath)
+			pic = makePicture(tempFilePath)
+			#filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
+			#pic = makePicture(filename)
 
-			filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
-			lockedBG = makePicture(filename3)
+			if getOS() == "win":
+				#windows
+				tempFilePath = tempfile.gettempdir() + "\\bg.jpg"
+			else:
+				#mac/linux
+				tempFilePath = tempfile.gettempdir() + "bg.jpg"
+
+			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/bg.jpg', tempFilePath)
+			bg = makePicture(tempFilePath)
+			#filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
+			#bg = makePicture(filename2)
+
+			if getOS() == "win":
+				#windows
+				tempFilePath = tempfile.gettempdir() + "\\lockedBG.jpg"
+			else:
+				#mac/linux
+				tempFilePath = tempfile.gettempdir() + "lockedBG.jpg"
+
+			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/lockedBG.jpg', tempFilePath)
+			lockedBG = makePicture(tempFilePath)
+			#filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
+			#lockedBG = makePicture(filename3)
 
 			mario = Hero(360,440)
 			greenScreenOffset(pic, bg, 360, 440)
