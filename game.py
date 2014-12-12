@@ -125,12 +125,13 @@ def moveRight(hero, pic, bg, lockedBG):
 
 
 
-
+#======================================================================================================================
 
 def startGame():
 	
 	###
-   	#make variable global so game can be over during battle sequence
+	game = "on"
+	#make variable global so game can be over during battle sequence
 	global game
  
 	#Collect userName for dialogs (particularly the win sequence) 
@@ -138,8 +139,22 @@ def startGame():
 	global userName
 
    	#initiate hitpoints - to be increased by finding shield and enchanted items and later passed to battle function
-	defaultHitpoints = 10
+	defaultHitpoints = 20
 	hitpoints = defaultHitpoints
+	global hitpoints #global to be adjusted in various functions
+	
+	shield = "in place"
+	sword = "in place"
+	treasure = "in place"
+	treasureDrink = "in place"
+	inventory = {}
+  	#global variables to be referenced and adjusted in various functions
+	global hitpoints, sword, treasure, treasureDrink
+	global inventory
+	soundfile5 = r"C:\Users\Me\Downloads\FINAL PROJECT FILES\Inventory\sounds\Pick up item 1.wav"
+	itemSound = makeSound(soundfile5)
+	global itemSound
+ 
 
 	###
 
@@ -412,23 +427,27 @@ def startGame():
 			moveRight(mario, pic, bg, lockedBG)
 			currentGridPoint = currentGridPoint.getEastObj()
 
-
+#======================================================================================================================
 
 def battle(hitpoints):
   import urllib
   import tempfile
   import time #to wait for swords to finish before winning or losing sound
   
-  #THIS FUNCTION SHOULD TO BE PASSED THE CHARACTER AS A PARAMETER SO IT KNOWS WHICH LARGE IMAGE TO BE LOADED ONTO THE BG IMAGE
+  #THIS FUNCTION SHOULD TO BE GIVEN THE CHARACTER AS A PARAMETER SO IT KNOWS WHICH LARGE IMAGE TO BE LOADED ONTO THE BG IMAGE
   game = "on" #code needed to run battle independent of game() for testing. otherwise should just carry through as global
   userName = "test player" #code needed to run battle independent of game() for testing. otherwise should just carry through as global
-  
+  treasureDrink = "obtained" #code needed to run battle independent of game() for testing. otherwise should just carry through as global
+  inventory = {"half a drink": 4} #code needed to run battle independent of game() for testing. otherwise should just carry through as global
+    
   #print tempfile.gettempdir() #not functioning currently JD
   #winImage = urllib.urlretrieve(http://whitenebula.com/csumb/cst205/final/battlebg.jpg, tempFilePath + "\\win.jpg")
   
   
   global userName
   global game
+  global inventory
+  global treasureDrink
   
   bossHitpoints = 50
   filename1 = r"C:\Users\jdunham\Desktop\battle\VS.jpg"  
@@ -459,6 +478,23 @@ def battle(hitpoints):
   
   bg = blCopy(largeChar, bg, 38, 170)
   bg = blCopy(largeBadGuy, bg, 372, 160)
+  
+  if treasureDrink == "obtained":
+    while game != "over":
+      userInput = requestString("This place is kind of scary. You're getting weak in the knees.\nMaybe you should drink the rest of that disgusting tasting potion.\nIt seemed to make you feel better.\n\nY/N")
+      userInput = userInput.lower()
+      if userInput == ("y" or "yes" or "drink"):
+        printNow("You pour the rest of that foul-tasting liquid down your throat.\nHey! You DO feel better!\nYou gain " + str(inventory['half a drink']) + " hit points!\n")
+        hitpoints += inventory['half a drink']
+        del inventory['half a drink']
+        printNow(inventory)
+        break
+      elif userInput == ("n" or "no"):
+        printNow("Your taste buds thank you.\n")
+        break
+      else:
+        printNow("\nInvalid command")  
+  
   repaint(bg)
   play(battleStartSound)
   printNow("You might have found me, but you will never stop me!")
@@ -525,6 +561,7 @@ def battle(hitpoints):
           repaint(bg)
           game = "over"        
         
+#======================================================================================================================
 
 def damageDealt():
   import random
@@ -532,6 +569,8 @@ def damageDealt():
     damage = random.randint(1,10)
   return damage  
   
+#======================================================================================================================
+
 def blCopy(source, target, targetX, targetY):
   """copy a picture onto a target picture excluding blue"""
   for x in range (0, getWidth(source)):
@@ -541,7 +580,126 @@ def blCopy(source, target, targetX, targetY):
         setColor(getPixel(target, x+targetX, y+targetY), color)
   return target    	
   	
+#======================================================================================================================
 
+#Sword function
+
+def swordFunc():
+  
+  # Global variables
+  global game
+  global inventory
+  global sword
+  global userInput
+  # List of words to obtain items
+  swordList = ["sword", "get sword", "take sword", "pickup sword", "pull sword", "pick up sword"]
+  # Ask for user input
+  userInput = requestString("You are near a sword")
+  userInput = userInput.lower()
+  # Loop through exit and items
+  while game != "over":
+    if userInput == "exit":
+      game = "over"
+    elif userInput in swordList:
+      inventory["sword"] = 4
+      sword = "obtained"
+      play(itemSound)
+      printNow("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained " + str(inventory["sword"]) + " hit points")
+      printNow("Inventory: " + inventory)
+      return
+    else:
+      printNow("\nInvalid command")
+
+#======================================================================================================================
+
+#Shield function
+            
+def shieldFunc():
+  # Global variables
+  global game
+  global inventory
+  global shield
+  global userInput
+  # List of words to obtain items
+  shieldList = ["shield", "get shield", "take shield", "pickup shield", "pull shield", "pick up shield"]
+  # Ask for user input
+  userInput = requestString("you are near a shield ")
+  userInput = userInput.lower()
+  # Loop through exit and items
+  while game != "over":
+    if userInput == "exit":
+      game = "over"
+    elif userInput in shieldList:
+      inventory["shield"] = 10
+      shield = "obtained"
+      play(itemSound)
+      printNow("\nYou can now use this shield to protect you from evil. You have gained " + str(inventory["shield"]) + " hit points")
+      printNow("Inventory: " + inventory)
+      return
+    else:
+      printNow("\nInvalid command")
+
+#======================================================================================================================
+
+#Treasure chest w/ ring function
+
+def treasureFunc():
+  # Global variables
+  global game
+  global inventory
+  global userInput
+  global treasure
+  global hitpoints
+  # List of words to obtain items  
+  treasureList = ["open", "use", "treasure", "chest", "get treasure", "take treasure", "pickup treasure", "pull treasure", "pick up treasure"]
+  # Ask for user input
+  userInput = requestString("you are near a treasure chest ")
+  userInput = userInput.lower()
+  # Loop through exit and items
+  while game != "over":
+    if userInput == "exit":
+      game = "over"
+    elif userInput in treasureList:
+      inventory["ring"] = 8
+      ring = "obtained"
+      play(itemSound)
+      printNow("\nYou have found a magical ring that increases your hit points by " + str(inventory["ring"]))
+      printNow("Inventory: " + inventory)
+      return
+    else:
+      printNow("\nInvalid command")
+
+#======================================================================================================================
+
+#Treasure chest w/ drink function
+
+def treasureDrinkFunc():
+  # Global variables
+  global game
+  global inventory
+  global userInput
+  global treasure
+  global treasureDrink
+  # List of words to obtain items 
+  drinkList = ["open", "use", "treasure", "chest", "get treasure", "take treasure", "pickup treasure", "pull treasure", "pick up treasure"]
+  # Ask for user input
+  userInput = requestString("you are near a treasure chest ")
+  userInput = userInput.lower()
+  # Loop through exit and items
+  while game != "over":
+    if userInput == "exit":
+      game = "over"
+    elif userInput in drinkList:
+      inventory["half a drink"] = 4
+      treasureDrink = "obtained"
+      play(itemSound)
+      printNow("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by " + str(inventory["half a drink"]))
+      printNow("Inventory: " + inventory)
+      return
+    else:
+      printNow("\nInvalid command")
+
+#======================================================================================================================
 
 	#pic = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg')
 
