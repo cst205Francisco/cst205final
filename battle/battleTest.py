@@ -1,166 +1,3 @@
-#Team 4 Kick ASCII
-#Jennifer Dunham, Daniel Cadwell, Francisco Gutierrez, Hyo Lee
-#CST 205 - Final
-
-#project chimichanga
-
-class GridPoint:
-	def __init__(self, hasNorthIn, hasSouthIn, hasWestIn, hasEastIn):
-		self.northBool = hasNorthIn
-		self.southBool = hasSouthIn
-		self.westBool = hasWestIn
-		self.eastBool = hasEastIn
-		self.northObj = False
-		self.southObj = False
-		self.westObj = False
-		self.eastObj = False
-	def hasNorth(self):
-		return self.northBool
-	def hasSouth(self):
-		return self.southBool
-	def hasWest(self):
-		return self.westBool
-	def hasEast(self):
-		return self.eastBool
-	def setNorthObj(self, objIn):
-		self.northObj = objIn
-	def getNorthObj(self):
-		return self.northObj
-	def setSouthObj(self, objIn):
-		self.southObj = objIn
-	def getSouthObj(self):
-		return self.southObj
-	def setWestObj(self, objIn):
-		self.westObj = objIn
-	def getWestObj(self):
-		return self.westObj
-	def setEastObj(self, objIn):
-		self.eastObj = objIn
-	def getEastObj(self):
-		return self.eastObj
-
-class Hero:
-	def __init__(self, xposIn, yposIn):
-		self.xpos = xposIn
-		self.ypos = yposIn
-	def setX(self, x):
-		self.xpos = x
-	def getX(self):
-		return self.xpos
-	def setY(self, y):
-		self.ypos = y
-	def getY(self):
-		return self.ypos
-		
-
-def greenScreenOffset(pic, bg, offX, offY):
-	for x in range(0, getWidth(pic)):
-		for y in range(0, getHeight(pic)):
-			p = getPixel(pic, x, y)
-			color = getColor(p)
-			if distance(color, green) > 200.0:
-				setColor(getPixel(bg, x+offX, y+offY), color)
-	return bg
-
-def coverSteps(bg, lockedBG, offX, offY):
-	for x in range(offX, offX+40):
-		for y in range(offY, offY+40):
-			p = getPixel(lockedBG, x, y)
-			color = getColor(p)
-			setColor(getPixel(bg, x, y), color)
-	return bg
-
-def moveUp(hero, pic, bg, lockedBG):
-	x = hero.getX()
-	y = hero.getY()
-
-	coverSteps(bg, lockedBG, x, y)
-	greenScreenOffset(pic, bg, x, y-40)
-	repaint(bg)
-
-	hero.setX(x)
-	hero.setY(y-40)
-
-def moveDown(hero, pic, bg, lockedBG):
-	x = hero.getX()
-	y = hero.getY()
-
-	coverSteps(bg, lockedBG, x, y)
-	greenScreenOffset(pic, bg, x, y+40)
-	repaint(bg)
-
-	hero.setX(x)
-	hero.setY(y+40)
-
-def moveLeft(hero, pic, bg, lockedBG):
-	x = hero.getX()
-	y = hero.getY()
-
-	coverSteps(bg, lockedBG, x, y)
-	greenScreenOffset(pic, bg, x-40, y)
-	repaint(bg)
-
-	hero.setX(x-40)
-	hero.setY(y)
-
-def moveRight(hero, pic, bg, lockedBG):
-	x = hero.getX()
-	y = hero.getY()
-
-	coverSteps(bg, lockedBG, x, y)
-	greenScreenOffset(pic, bg, x+40, y)
-	repaint(bg)
-
-	hero.setX(x+40)
-	hero.setY(y)
-
-def startGame():
-	
-	game = "on"
-   	#make variable global so game can be over during battle sequence
-	global game
- 
-	#Collect userName for dialogs (particularly the win sequence) 
-	userName = requestString("Hello, traveler!  What do you call yourself?")
-	global userName
-
-   	#initiate hitpoints - to be increased by finding shield and enchanted items and later passed to battle function
-	defaultHitpoints = 10
-	hitpoints = defaultHitpoints
-	
-	filename = r"C:\Users\jdunham\Desktop\mario.jpg"
-	pic = makePicture(filename)
-
-	filename2 = r"C:\Users\jdunham\Desktop\map.jpg"
-	bg = makePicture(filename2)
-
-	lockedBG = makePicture(filename2)
-
-	mario = Hero(0,0)
- 
-	repaint(bg)
-
-	while game != "over":
-		userInput = requestString("go where?")
-		userInput = userInput.lower()
-
-		if userInput == "exit":
-			game = "over"
-
-		if userInput == "down":
-			moveDown(mario, pic, bg, lockedBG)
-
-		if userInput == "up":
-			moveUp(mario, pic, bg, lockedBG)
-
-		if userInput == "left":
-			moveLeft(mario, pic, bg, lockedBG)
-
-		if userInput == "right":
-			moveRight(mario, pic, bg, lockedBG)
-
-<<<<<<< HEAD
-
 def battle(hitpoints):
   import urllib
   import tempfile
@@ -178,15 +15,15 @@ def battle(hitpoints):
   global game
   
   bossHitpoints = 50
-  filename1 = r"C:\Users\jdunham\Desktop\battle\VS.jpg"  
-  filename2 = r"C:\Users\jdunham\Desktop\battle\turtleVS.jpg"
-  filename3 = r"C:\Users\jdunham\Desktop\battle\ZomaVS.jpg"
-  filename4 = r"C:\Users\jdunham\Desktop\battle\GameOver.jpg"
-  filename5 = r"C:\Users\jdunham\Desktop\battle\YouWin.jpg"
-  soundfile1 = r"C:\Users\jdunham\Desktop\battle\monsterBattleSound.wav"
-  soundfile2 = r"C:\Users\jdunham\Desktop\battle\swords2.wav"
-  soundfile3 = r"C:\Users\jdunham\Desktop\battle\winning3.wav"
-  soundfile4 = r"C:\Users\jdunham\Desktop\battle\sadtrombone.wav"
+  filename1 = r"C:\Users\Me\Downloads\battle\VS.jpg"  
+  filename2 = r"C:\Users\Me\Downloads\battle\turtleVS.jpg"
+  filename3 = r"C:\Users\Me\Downloads\battle\ZomaVS.jpg"
+  filename4 = r"C:\Users\Me\Downloads\battle\GameOver.jpg"
+  filename5 = r"C:\Users\Me\Downloads\battle\YouWin.jpg"
+  soundfile1 = r"C:\Users\Me\Downloads\battle\monsterBattleSound.wav"
+  soundfile2 = r"C:\Users\Me\Downloads\battle\swords2.wav"
+  soundfile3 = r"C:\Users\Me\Downloads\battle\winning3.wav"
+  soundfile4 = r"C:\Users\Me\Downloads\battle\sadtrombone.wav"
   
   battleStartSound = makeSound(soundfile1)
   swordsSound = makeSound(soundfile2)
@@ -273,12 +110,30 @@ def battle(hitpoints):
           game = "over"        
         
 
+
+        
+      
+      
+  
 def damageDealt():
   import random
   for x in range(10):
     damage = random.randint(1,10)
   return damage  
   
+  	
+
+
+#def grCopy(source, target, targetX, targetY):
+#  """copy a picture onto a target picture excluding green"""
+#  for x in range (0, getWidth(source)):
+#    for y in range (0, getHeight(source)):
+#      color = getColor(getPixel(source, x, y))
+#      if distance(color, blue) > 170.0:
+#        setColor(getPixel(target, x+targetX, y+targetY), color)
+#  return target  
+
+
 def blCopy(source, target, targetX, targetY):
   """copy a picture onto a target picture excluding blue"""
   for x in range (0, getWidth(source)):
@@ -287,12 +142,3 @@ def blCopy(source, target, targetX, targetY):
       if distance(color, blue) > 170.0:
         setColor(getPixel(target, x+targetX, y+targetY), color)
   return target    	
-  	
-=======
-	
->>>>>>> 1be51c7de24abb4ff67bc914d7a9d09f324d7797
-
-	#pic = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg')
-
-	
-	#bg = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/map.jpg')
