@@ -159,7 +159,7 @@ def startGame():
 		if userInput == "right":
 			moveRight(mario, pic, bg, lockedBG)
 
-<<<<<<< HEAD
+
 
 def battle(hitpoints):
   import urllib
@@ -288,9 +288,7 @@ def blCopy(source, target, targetX, targetY):
         setColor(getPixel(target, x+targetX, y+targetY), color)
   return target    	
   	
-=======
-	
->>>>>>> 1be51c7de24abb4ff67bc914d7a9d09f324d7797
+
 
 	#pic = makePicture('/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg')
 
