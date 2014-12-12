@@ -129,8 +129,9 @@ def moveRight(hero, pic, bg, lockedBG):
 
 def startGame():
 	
+	'''
 	###
-	game = "on"
+
 	#make variable global so game can be over during battle sequence
 	global game
  
@@ -157,6 +158,7 @@ def startGame():
  
 
 	###
+	'''
 
 
 	#initialize grid points
