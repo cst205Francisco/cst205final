@@ -75,6 +75,7 @@ class Hero:
 		self.shield = False
 		self.potion = False
 		self.ring = False
+		self.charType = ""
 	def setX(self, x):
 		self.xpos = x
 	def getX(self):
@@ -99,6 +100,10 @@ class Hero:
 		return self.ring
 	def setRing(self, myBool):
 		self.ring = myBool
+	def setCharType(self, myType):
+		self.charType = myType
+	def getCharType(self):
+		return self.charType
 
 		
 
@@ -461,6 +466,8 @@ def startGame():
 			userInput = requestString("Choose your character!")
 			userInput = userInput.lower()
 
+			myHero = Hero(360,440)
+
 			if userInput == "1":
 				#Link
 				gamePhase = "menu-map"
@@ -474,6 +481,7 @@ def startGame():
 
 				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/linkSmall.jpg', tempFilePath)
 				pic = makePicture(tempFilePath)
+				myHero.setCharType("link")
 
 			if userInput == "2":
 				#Turtle
@@ -488,6 +496,7 @@ def startGame():
 
 				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/turtleSmall.jpg', tempFilePath)
 				pic = makePicture(tempFilePath)
+				myHero.setCharType("turtle")
 
 			if userInput == "3":
 				#Princess Zelda
@@ -502,6 +511,7 @@ def startGame():
 
 				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/princessSmall.jpg', tempFilePath)
 				pic = makePicture(tempFilePath)
+				myHero.setCharType("princess")
 
 			if userInput == "4":
 				#IronMan
@@ -516,6 +526,7 @@ def startGame():
 
 				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/ironManSmall.jpg', tempFilePath)
 				pic = makePicture(tempFilePath)
+				myHero.setCharType("ironMan")
 				
 
 		if gamePhase == "menu-map":
@@ -540,8 +551,6 @@ def startGame():
 			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/lockedBG.jpg', tempFilePath)
 			lockedBG = makePicture(tempFilePath)
 
-			myHero = Hero(360,440)
-
 			addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
 			repaint(bg)
 
@@ -560,19 +569,19 @@ def startGame():
 			userInput = requestString("go where?")
 			userInput = userInput.lower()
 
-			if userInput == "down" and currentGridPoint.hasSouth():
+			if (userInput == "down" or userInput == "d") and currentGridPoint.hasSouth():
 				moveDown(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getSouthObj()
 
-			if userInput == "up" and currentGridPoint.hasNorth():
+			if (userInput == "up" or userInput == "u") and currentGridPoint.hasNorth():
 				moveUp(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getNorthObj()
 
-			if userInput == "left" and currentGridPoint.hasWest():
+			if (userInput == "left" or userInput == "l") and currentGridPoint.hasWest():
 				moveLeft(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getWestObj()
 
-			if userInput == "right" and currentGridPoint.hasEast():
+			if (userInput == "right" or userInput == "r") and currentGridPoint.hasEast():
 				moveRight(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getEastObj()
 
@@ -661,7 +670,80 @@ def startGame():
 				repaint(bg)
 
 				replaceBG(bg, vsBG)
+
+				#add chars to vs screen
+
+				if myHero.getCharType() == "link":
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\linkLarge.jpg"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "linkLarge.jpg"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/linkLarge.jpg', tempFilePath)
+					largeHero = makePicture(tempFilePath)
+
+				if myHero.getCharType() == "turtle":
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\turtleLarge.jpg"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "turtleLarge.jpg"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/turtleLarge.jpg', tempFilePath)
+					largeHero = makePicture(tempFilePath)
+
+				if myHero.getCharType() == "princess":
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\princessLarge.jpg"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "princessLarge.jpg"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/princessLarge.jpg', tempFilePath)
+					largeHero = makePicture(tempFilePath)
+
+				if myHero.getCharType() == "ironMan":
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\ironManLarge.jpg"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "ironManLarge.jpg"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/ironManLarge.jpg', tempFilePath)
+					largeHero = makePicture(tempFilePath)
+
+				#bad guy large
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\zomaLarge.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "zomaLarge.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/zomaLarge.jpg', tempFilePath)
+				largeEnemy = makePicture(tempFilePath)
+
+				#set largeHero
+				greenScreenOffset(largeHero, bg, 38, 170)
+				greenScreenOffset(largeEnemy, bg, 372, 160)
 				repaint(bg)
+
+				#play monster sound
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\monster.wav"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "monster.wav"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/monster.wav', tempFilePath)
+				monsterSound = makeSound(tempFilePath)
+				play(monsterSound)
 
 				gamePhase = "battle"
 				printNow("dungeon")
