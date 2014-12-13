@@ -504,19 +504,6 @@ def startGame():
 				
 
 		if gamePhase == "menu-map":
-			'''
-			if getOS() == "win":
-				#windows
-				tempFilePath = tempfile.gettempdir() + "\\mario.jpg"
-			else:
-				#mac/linux
-				tempFilePath = tempfile.gettempdir() + "mario.jpg"
-
-			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/mario.jpg', tempFilePath)
-			pic = makePicture(tempFilePath)
-			#filename = "/Users/franciscogutierrez/cst205/final/cst205final/mario.jpg"
-			#pic = makePicture(filename)
-			'''
 
 			if getOS() == "win":
 				#windows
@@ -546,9 +533,10 @@ def startGame():
 
 			myHero = Hero(360,440)
 
-			replaceBG(bg, mapBG)
+			addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+			repaint(bg)
 
-			#replaceBG is a VERY slow function, since its replacing every pixel. Maybe consider adding a "loading..." text before the complete redraw so user gets patient.
+			replaceBG(bg, mapBG)
 
 			greenScreenOffset(pic, bg, 360, 440)
 
