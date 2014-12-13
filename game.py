@@ -7,6 +7,7 @@
 import tempfile
 import urllib
 import java.lang
+import time
 
 #get user OS, either 'mac' or 'win'
 def getOS():
@@ -70,6 +71,10 @@ class Hero:
 	def __init__(self, xposIn, yposIn):
 		self.xpos = xposIn
 		self.ypos = yposIn
+		self.sword = False
+		self.shield = False
+		self.potion = False
+		self.ring = False
 	def setX(self, x):
 		self.xpos = x
 	def getX(self):
@@ -78,6 +83,23 @@ class Hero:
 		self.ypos = y
 	def getY(self):
 		return self.ypos
+	def hasSword(self):
+		return self.sword
+	def setSword(self, myBool):
+		self.sword = myBool
+	def hasShield(self):
+		return self.shield
+	def setShield(self, myBool):
+		self.shield = myBool
+	def hasPotion(self):
+		return self.potion
+	def setPotion(self, myBool):
+		self.potion = myBool
+	def hasRing(self):
+		return self.ring
+	def setRing(self, myBool):
+		self.ring = myBool
+
 		
 
 def greenScreenOffset(pic, bg, offX, offY):
@@ -415,7 +437,7 @@ def startGame():
 
 	game = "on"
 	
-	#gamePhase - menu, map, battle, game over
+	#gamePhase - menu, menu-map, map, battle, gameover
 
 	gamePhase = "menu"
 
@@ -555,20 +577,98 @@ def startGame():
 				currentGridPoint = currentGridPoint.getEastObj()
 
 			if currentGridPoint == b9:
-				printNow("shield")
-				showInformation("shield")
+				#shield
+				if myHero.hasShield():
+					printNow("Nothing to see here")
+				else:
+					myHero.setShield(True)
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\item.wav"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "item.wav"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
+					itemSound = makeSound(tempFilePath)
+					play(itemSound)
 
 			if currentGridPoint == o11:
-				printNow("sword")
+				#sword
+				if myHero.hasSword():
+					printNow("Nothing to see here")
+				else:
+					myHero.setSword(True)
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\item.wav"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "item.wav"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
+					itemSound = makeSound(tempFilePath)
+					play(itemSound)
 
 			if currentGridPoint == o2:
-				printNow("chest")
+				#potion
+				if myHero.hasPotion():
+					printNow("Nothing to see here")
+				else:
+					myHero.setPotion(True)
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\item.wav"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "item.wav"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
+					itemSound = makeSound(tempFilePath)
+					play(itemSound)
 
 			if currentGridPoint == b2:
-				printNow("chest")
+				#ring
+				if myHero.hasRing():
+					printNow("Nothing to see here")
+				else:
+					myHero.setPotion(True)
+					if getOS() == "win":
+						#windows
+						tempFilePath = "C:\\Windows\\Temp\\item.wav"
+					else:
+						#mac/linux
+						tempFilePath = tempfile.gettempdir() + "item.wav"
+
+					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
+					itemSound = makeSound(tempFilePath)
+					play(itemSound)
 
 			if currentGridPoint == d4:
+				#setup everything for the battle
+				#redraw bg
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\vsBG.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "vsBG.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/vsBG.jpg', tempFilePath)
+				vsBG = makePicture(tempFilePath)
+
+				addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+				repaint(bg)
+
+				replaceBG(bg, vsBG)
+				repaint(bg)
+
+				gamePhase = "battle"
 				printNow("dungeon")
+
+		if gamePhase == "battle":
+			game = "over"
+
 
 		if userInput == "exit":
 			game = "over"
