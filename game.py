@@ -415,15 +415,12 @@ def startGame():
 
 	game = "on"
 	
-	
-
 	#gamePhase - menu, map, battle, game over
 
 	gamePhase = "menu"
 
 	if getOS() == "win":
 		#windows
-		#tempFilePath = tempfile.gettempdir() + "\\menu.jpg"
 		tempFilePath = "C:\\Windows\\Temp\\menu.jpg"
 	else:
 		#mac/linux
@@ -448,7 +445,6 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					#tempFilePath = tempfile.gettempdir() + "\\linkSmall.jpg"
 					tempFilePath = "C:\\Windows\\Temp\\linkSmall.jpg"
 				else:
 					#mac/linux
@@ -463,7 +459,6 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					#tempFilePath = tempfile.gettempdir() + "\\turtleSmall.jpg"
 					tempFilePath = "C:\\Windows\\Temp\\turtleSmall.jpg"
 				else:
 					#mac/linux
@@ -478,7 +473,6 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					#tempFilePath = tempfile.gettempdir() + "\\princessSmall.jpg"
 					tempFilePath = "C:\\Windows\\Temp\\princessSmall.jpg"
 				else:
 					#mac/linux
@@ -493,7 +487,6 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					#tempFilePath = tempfile.gettempdir() + "\\ironManSmall.jpg"
 					tempFilePath = "C:\\Windows\\Temp\\ironManSmall.jpg"
 				else:
 					#mac/linux
@@ -507,7 +500,6 @@ def startGame():
 
 			if getOS() == "win":
 				#windows
-				#tempFilePath = tempfile.gettempdir() + "\\bg.jpg"
 				tempFilePath = "C:\\Windows\\Temp\\bg.jpg"
 			else:
 				#mac/linux
@@ -515,12 +507,9 @@ def startGame():
 
 			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/bg.jpg', tempFilePath)
 			mapBG = makePicture(tempFilePath)
-			#filename2 = "/Users/franciscogutierrez/cst205/final/cst205final/bg.jpg"
-			#bg = makePicture(filename2)
 
 			if getOS() == "win":
 				#windows
-				#tempFilePath = tempfile.gettempdir() + "\\lockedBG.jpg"
 				tempFilePath = "C:\\Windows\\Temp\\lockedBG.jpg"
 			else:
 				#mac/linux
@@ -528,8 +517,6 @@ def startGame():
 
 			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/lockedBG.jpg', tempFilePath)
 			lockedBG = makePicture(tempFilePath)
-			#filename3 = "/Users/franciscogutierrez/cst205/final/cst205final/lockedBG.jpg"
-			#lockedBG = makePicture(filename3)
 
 			myHero = Hero(360,440)
 
@@ -566,6 +553,22 @@ def startGame():
 			if userInput == "right" and currentGridPoint.hasEast():
 				moveRight(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getEastObj()
+
+			if currentGridPoint == b9:
+				printNow("shield")
+				showInformation("shield")
+
+			if currentGridPoint == o11:
+				printNow("sword")
+
+			if currentGridPoint == o2:
+				printNow("chest")
+
+			if currentGridPoint == b2:
+				printNow("chest")
+
+			if currentGridPoint == d4:
+				printNow("dungeon")
 
 		if userInput == "exit":
 			game = "over"
