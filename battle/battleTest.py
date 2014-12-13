@@ -25,10 +25,10 @@ def battle(hitpoints):
   soundfile3 = r"C:\Users\Me\Downloads\battle\winning3.wav"
   soundfile4 = r"C:\Users\Me\Downloads\battle\sadtrombone.wav"
   
-  battleStartSound = makeSound(soundfile1)
-  swordsSound = makeSound(soundfile2)
-  winningSound = makeSound(soundfile3)
-  losingSound = makeSound(soundfile4)
+  #battleStartSound = makeSound(soundfile1)
+  #swordsSound = makeSound(soundfile2)
+  #winningSound = makeSound(soundfile3)
+  #losingSound = makeSound(soundfile4)
   
   #intentionally using same variable name as game because map should be replaced by battle image upon commencement of battle
   bg = makePicture(filename1)
@@ -44,7 +44,7 @@ def battle(hitpoints):
   bg = blCopy(largeChar, bg, 38, 170)
   bg = blCopy(largeBadGuy, bg, 372, 160)
   repaint(bg)
-  play(battleStartSound)
+  #play(battleStartSound)
   printNow("You might have found me, but you will never stop me!")
   printNow("You will never get back your precious XXXXXXXX!")
   
@@ -55,7 +55,7 @@ def battle(hitpoints):
     if userInput == "exit":
       game = "over"
     elif userInput == "run":
-      play(losingSound)
+      #play(losingSound)
       printNow("Coward!  I am not above stabbing you in the back!")
       printNow("And NOW I HAVE!  Your meaningless life is OVER!")
       printNow("\n\nYou died.")
@@ -66,7 +66,7 @@ def battle(hitpoints):
       #Attack bad guy
 
       printNow("You swing your sword and connect!")
-      play(swordsSound)
+      #play(swordsSound)
       damage = damageDealt()
       printNow("You connect for " + str(damage) + " damage!")
       bossHitpoints -= damage
@@ -79,7 +79,7 @@ def battle(hitpoints):
         printNow("Great job, " + userName + "!")
         printNow("You kicked a lot of ASCII today!")
         time.sleep(5)
-        play(winningSound)
+        #play(winningSound)
                 
         #intentionally using same variable name, bg, as battle screen should be replaced by game win image upon winning
         bg = makePicture(filename5)
@@ -102,7 +102,7 @@ def battle(hitpoints):
           printNow("XXXXX will forever be the captive of bad guy.")
           printNow("The world is a dreary, hopeless place.\n")
           time.sleep(5)
-          play(losingSound)
+          #play(losingSound)
           
           #intentionally using same variable name, bg, as battle screen should be replaced by game lose image upon losing
           bg = makePicture(filename4)

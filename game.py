@@ -423,7 +423,8 @@ def startGame():
 
 	if getOS() == "win":
 		#windows
-		tempFilePath = tempfile.gettempdir() + "\\menu.jpg"
+		#tempFilePath = tempfile.gettempdir() + "\\menu.jpg"
+		tempFilePath = "C:\\Windows\\Temp\\menu.jpg"
 	else:
 		#mac/linux
 		tempFilePath = tempfile.gettempdir() + "menu.jpg"
@@ -447,7 +448,8 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					tempFilePath = tempfile.gettempdir() + "\\linkSmall.jpg"
+					#tempFilePath = tempfile.gettempdir() + "\\linkSmall.jpg"
+					tempFilePath = "C:\\Windows\\Temp\\linkSmall.jpg"
 				else:
 					#mac/linux
 					tempFilePath = tempfile.gettempdir() + "linkSmall.jpg"
@@ -461,7 +463,8 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					tempFilePath = tempfile.gettempdir() + "\\turtleSmall.jpg"
+					#tempFilePath = tempfile.gettempdir() + "\\turtleSmall.jpg"
+					tempFilePath = "C:\\Windows\\Temp\\turtleSmall.jpg"
 				else:
 					#mac/linux
 					tempFilePath = tempfile.gettempdir() + "turtleSmall.jpg"
@@ -475,7 +478,8 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					tempFilePath = tempfile.gettempdir() + "\\princessSmall.jpg"
+					#tempFilePath = tempfile.gettempdir() + "\\princessSmall.jpg"
+					tempFilePath = "C:\\Windows\\Temp\\princessSmall.jpg"
 				else:
 					#mac/linux
 					tempFilePath = tempfile.gettempdir() + "princessSmall.jpg"
@@ -489,7 +493,8 @@ def startGame():
 
 				if getOS() == "win":
 					#windows
-					tempFilePath = tempfile.gettempdir() + "\\ironManSmall.jpg"
+					#tempFilePath = tempfile.gettempdir() + "\\ironManSmall.jpg"
+					tempFilePath = "C:\\Windows\\Temp\\ironManSmall.jpg"
 				else:
 					#mac/linux
 					tempFilePath = tempfile.gettempdir() + "ironManSmall.jpg"
@@ -515,7 +520,8 @@ def startGame():
 
 			if getOS() == "win":
 				#windows
-				tempFilePath = tempfile.gettempdir() + "\\bg.jpg"
+				#tempFilePath = tempfile.gettempdir() + "\\bg.jpg"
+				tempFilePath = "C:\\Windows\\Temp\\bg.jpg"
 			else:
 				#mac/linux
 				tempFilePath = tempfile.gettempdir() + "bg.jpg"
@@ -527,7 +533,8 @@ def startGame():
 
 			if getOS() == "win":
 				#windows
-				tempFilePath = tempfile.gettempdir() + "\\lockedBG.jpg"
+				#tempFilePath = tempfile.gettempdir() + "\\lockedBG.jpg"
+				tempFilePath = "C:\\Windows\\Temp\\lockedBG.jpg"
 			else:
 				#mac/linux
 				tempFilePath = tempfile.gettempdir() + "lockedBG.jpg"
