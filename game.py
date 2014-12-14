@@ -102,7 +102,7 @@ def getMedia(mediaType, fileName):
 
 	if getOS() == "win":
 		#windows
-		tempFilePath = tempfile.gettempdir() + "\\" + fileName + suffix
+		tempFilePath = "C:\\Windows\\Temp\\" + fileName + suffix
 	else:
 		#mac/linux
 		tempFilePath = tempfile.gettempdir() + fileName + suffix
