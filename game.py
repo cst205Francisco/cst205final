@@ -212,8 +212,11 @@ def startGame():
 
 	###
 	'''
+	
 
 	userName = requestString("Hello, traveler!  What do you call yourself?")
+	if userName == None:
+		userName = "MrImTooGoodToGiveAName"
 
 
 	#initialize grid points
@@ -466,7 +469,10 @@ def startGame():
 		if gamePhase == "menu":
 			#choose your character
 			userInput = requestString("Choose your character!")
-			userInput = userInput.lower()
+			if userInput == None:
+				userInput = "1"
+			else:
+				userInput = userInput.lower()
 
 			myHero = Hero(360,440)
 
@@ -569,7 +575,10 @@ def startGame():
 
 		if gamePhase == "map":
 			userInput = requestString("go where?")
-			userInput = userInput.lower()
+			if userInput == None:
+				userInput = "up"
+			else:
+				userInput = userInput.lower()
 
 			if (userInput == "down" or userInput == "d") and currentGridPoint.hasSouth():
 				moveDown(myHero, pic, bg, lockedBG)
@@ -814,16 +823,46 @@ def startGame():
 
 				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/gameOver.wav', tempFilePath)
 				gameOverSound = makeSound(tempFilePath)
+
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\win.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "win.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/win.jpg', tempFilePath)
+				winBG = makePicture(tempFilePath)
+
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\gameOver.jpg"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "gameOver.jpg"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/gameOver.jpg', tempFilePath)
+				gameOverBG = makePicture(tempFilePath)
 				
 				doOnce = False
 
 			userInput = requestString("Attack or Run?")
-			userInput = userInput.lower()
+			if userInput == None:
+				userInput = "run"
+			else:
+				userInput = userInput.lower()
 
 			if userInput == "run":
+				
+				addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+				repaint(bg)
+				replaceBG(bg, gameOverBG)
+				repaint(bg)
 				printNow("Coward!  I am not above stabbing you in the back!")
 				printNow("And NOW I HAVE!  Your meaningless life is OVER!")
 				printNow("\n\nYou died.")
+
+				play(gameOverSound)
 				game = "over"
 
 			if userInput == "attack":
@@ -837,14 +876,22 @@ def startGame():
 					printNow("You connect for " + str(damage) + " damage!")
 					bossHitpoints -= damage
 					if bossHitpoints <= 0:
+						
+						time.sleep(5)
+						
+						#redraw bg
+						addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+						repaint(bg)
+						replaceBG(bg, winBG)
+						repaint(bg)
+
 						printNow("\nYou have defeated bad guy and saved the Universe!!")
 						printNow("All is well in the kingdom.")
 						printNow("Great job, " + userName + "!")
 						printNow("You kicked a lot of ASCII today!")
-						time.sleep(5)
+
 						play(winSound)
 						game = "over"
-						#redraw bg	
 					else:
 						printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
 						printNow("You're getting there!\n")
@@ -857,18 +904,21 @@ def startGame():
 						if heroHP > 0:
 							printNow("You have " + str(heroHP) + " remaining.\n")
 						else:
+							
+							time.sleep(5)
+							
+							#redraw bg
+							addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+							repaint(bg)
+							replaceBG(bg, gameOverBG)
+							repaint(bg)
+
 							printNow("\nYou have been defeated.")
 							printNow("You're done, dead, finito.")
 							printNow("The world is a dreary, hopeless place.\n")
-							time.sleep(5)
+
 							play(gameOverSound)
 							game = "over"
-							#redraw bg
-
-
-
-
-					#hit enemy, if enemy == dead, you win! if enemy != dead, enemy hits you, if you = dead, game over
 
 				else:
 					#fist battle
@@ -876,16 +926,23 @@ def startGame():
 					play(punchSound)
 					damage = damageDealt()
 					printNow("You connect for " + str(damage) + " damage!")
+					bossHitpoints -= damage
 					if bossHitpoints <= 0:
 						
 						time.sleep(5)
+						
+						#redraw bg	
+						addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+						repaint(bg)
+						replaceBG(bg, winBG)
+						repaint(bg)
+
 						play(winSound)
 						printNow("\nYou have defeated bad guy and saved the Universe!!")
 						printNow("All is well in the kingdom.")
 						printNow("Great job, " + userName + "!")
 						printNow("You kicked a lot of ASCII today!")
 						game = "over"
-						#redraw bg	
 					else:
 						printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
 						printNow("You're getting there!\n")
@@ -900,14 +957,18 @@ def startGame():
 					else:
 						
 						time.sleep(5)
+						
+						#redraw bg
+						addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
+						repaint(bg)
+						replaceBG(bg, gameOverBG)
+						repaint(bg)
+
 						play(gameOverSound)
 						printNow("\nYou have been defeated.")
 						printNow("You're done, dead, finito.")
 						printNow("The world is a dreary, hopeless place.\n")
 						game = "over"
-						#redraw bg
-				#game = "over"
-
 
 		if userInput == "exit":
 			game = "over"
