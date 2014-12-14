@@ -213,6 +213,8 @@ def startGame():
 	###
 	'''
 
+	userName = requestString("Hello, traveler!  What do you call yourself?")
+
 
 	#initialize grid points
 	b2 = GridPoint(0,0,0,1)
@@ -601,6 +603,7 @@ def startGame():
 					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
 					itemSound = makeSound(tempFilePath)
 					play(itemSound)
+					printNow("\nYou can now use this shield to protect you from evil. You have gained 10 hit points")
 
 			if currentGridPoint == o11:
 				#sword
@@ -618,6 +621,7 @@ def startGame():
 					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
 					itemSound = makeSound(tempFilePath)
 					play(itemSound)
+					printNow("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
 
 			if currentGridPoint == o2:
 				#potion
@@ -635,6 +639,7 @@ def startGame():
 					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
 					itemSound = makeSound(tempFilePath)
 					play(itemSound)
+					printNow("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4")
 
 			if currentGridPoint == b2:
 				#ring
@@ -652,6 +657,7 @@ def startGame():
 					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
 					itemSound = makeSound(tempFilePath)
 					play(itemSound)
+					printNow("\nYou have found a magical ring that increases your hit points by 8")
 
 			if currentGridPoint == d4:
 				#setup everything for the battle
@@ -746,10 +752,161 @@ def startGame():
 				play(monsterSound)
 
 				gamePhase = "battle"
+				doOnce = True
 				printNow("dungeon")
+				#prepare hitpoints here
+				heroHP = 20
+				bossHitpoints = 50
+				if myHero.hasSword():
+					heroHP += 4
+				if myHero.hasRing():
+					heroHP += 8
+				if myHero.hasPotion():
+					heroHP += 8
+				if myHero.hasShield():
+					heroHP += 10
 
 		if gamePhase == "battle":
-			game = "over"
+
+			#doOnce, preload sounds for battle
+			
+			if doOnce:
+				#
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\sword.wav"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "sword.wav"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/sword.wav', tempFilePath)
+				swordSound = makeSound(tempFilePath)
+
+				#
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\punch.wav"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "punch.wav"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/punch.wav', tempFilePath)
+				punchSound = makeSound(tempFilePath)
+
+				#
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\win.wav"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "win.wav"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/win.wav', tempFilePath)
+				winSound = makeSound(tempFilePath)
+
+				#
+				if getOS() == "win":
+					#windows
+					tempFilePath = "C:\\Windows\\Temp\\gameOver.wav"
+				else:
+					#mac/linux
+					tempFilePath = tempfile.gettempdir() + "gameOver.wav"
+
+				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/gameOver.wav', tempFilePath)
+				gameOverSound = makeSound(tempFilePath)
+				
+				doOnce = False
+
+			userInput = requestString("Attack or Run?")
+			userInput = userInput.lower()
+
+			if userInput == "run":
+				printNow("Coward!  I am not above stabbing you in the back!")
+				printNow("And NOW I HAVE!  Your meaningless life is OVER!")
+				printNow("\n\nYou died.")
+				game = "over"
+
+			if userInput == "attack":
+				#battle sequence
+				if myHero.hasSword():
+					#sword battle
+					printNow("You swing your sword and connect!")
+					play(swordSound)
+					damage = damageDealt()
+					damage *= 2
+					printNow("You connect for " + str(damage) + " damage!")
+					bossHitpoints -= damage
+					if bossHitpoints <= 0:
+						printNow("\nYou have defeated bad guy and saved the Universe!!")
+						printNow("All is well in the kingdom.")
+						printNow("Great job, " + userName + "!")
+						printNow("You kicked a lot of ASCII today!")
+						time.sleep(5)
+						play(winSound)
+						game = "over"
+						#redraw bg	
+					else:
+						printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
+						printNow("You're getting there!\n")
+						printNow("Bad guy counter-attacks!")
+						damage = damageDealt()
+						printNow("He strikes for " +str(damage) + " damage!")
+						heroHP -= damage
+						printNow("Ouch! That hurt.")
+
+						if heroHP > 0:
+							printNow("You have " + str(heroHP) + " remaining.\n")
+						else:
+							printNow("\nYou have been defeated.")
+							printNow("You're done, dead, finito.")
+							printNow("The world is a dreary, hopeless place.\n")
+							time.sleep(5)
+							play(gameOverSound)
+							game = "over"
+							#redraw bg
+
+
+
+
+					#hit enemy, if enemy == dead, you win! if enemy != dead, enemy hits you, if you = dead, game over
+
+				else:
+					#fist battle
+					printNow("You swing your fists and connect!")
+					play(punchSound)
+					damage = damageDealt()
+					printNow("You connect for " + str(damage) + " damage!")
+					if bossHitpoints <= 0:
+						
+						time.sleep(5)
+						play(winSound)
+						printNow("\nYou have defeated bad guy and saved the Universe!!")
+						printNow("All is well in the kingdom.")
+						printNow("Great job, " + userName + "!")
+						printNow("You kicked a lot of ASCII today!")
+						game = "over"
+						#redraw bg	
+					else:
+						printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
+						printNow("You're getting there!\n")
+						printNow("Bad guy counter-attacks!")
+						damage = damageDealt()
+						printNow("He strikes for " +str(damage) + " damage!")
+						heroHP -= damage
+						printNow("Ouch! That hurt.")
+
+					if heroHP > 0:
+						printNow("You have " + str(heroHP) + " remaining.\n")
+					else:
+						
+						time.sleep(5)
+						play(gameOverSound)
+						printNow("\nYou have been defeated.")
+						printNow("You're done, dead, finito.")
+						printNow("The world is a dreary, hopeless place.\n")
+						game = "over"
+						#redraw bg
+				#game = "over"
 
 
 		if userInput == "exit":
@@ -892,10 +1049,10 @@ def battle(hitpoints):
 #======================================================================================================================
 
 def damageDealt():
-  import random
-  for x in range(10):
-    damage = random.randint(1,10)
-  return damage  
+	import random
+	for x in range(10):
+		damage = random.randint(1,5)
+	return damage
   
 #======================================================================================================================
 
