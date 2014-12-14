@@ -9,29 +9,6 @@ import urllib
 import java.lang
 import time
 
-#get user OS, either 'mac' or 'win'
-def getOS():
-	os = ""
-	ver = sys.platform.lower()
-	ver = java.lang.System.getProperty("os.name").lower()
-	if ver.startswith('mac'):
-		os = "mac"
-	if ver.startswith('win'):
-		os = "win"
-	return os
-
-'''
-if getOS() == "win":
-	#windows
-	tempFilePath = tempfile.gettempdir() + "\\file.jpg"
-else:
-	#mac/linux
-	tempFilePath = tempfile.gettempdir() + "file.jpg"
-
-data = urllib.urlretrieve('URL', tempFilePath)
-pic = makePicture(tempFilePath)
-'''
-
 class GridPoint:
 	def __init__(self, hasNorthIn, hasSouthIn, hasWestIn, hasEastIn):
 		self.northBool = hasNorthIn
@@ -105,7 +82,45 @@ class Hero:
 	def getCharType(self):
 		return self.charType
 
-		
+#get user OS, either 'mac' or 'win'
+def getOS():
+	os = ""
+	ver = sys.platform.lower()
+	ver = java.lang.System.getProperty("os.name").lower()
+	if ver.startswith('mac'):
+		os = "mac"
+	if ver.startswith('win'):
+		os = "win"
+	return os
+
+def getMedia(mediaType, fileName):
+	suffix = ""
+	if mediaType == "img":
+		suffix = ".jpg"
+	else:
+		suffix = ".wav"
+
+	if getOS() == "win":
+		#windows
+		tempFilePath = tempfile.gettempdir() + "\\" + fileName + suffix
+	else:
+		#mac/linux
+		tempFilePath = tempfile.gettempdir() + fileName + suffix
+
+	url = "https://raw.githubusercontent.com/cst205Francisco/cst205final/master/" + mediaType + "/" + fileName + suffix
+	data = urllib.urlretrieve(url, tempFilePath)
+
+	if mediaType == "img":
+		myMedia = makePicture(tempFilePath)
+	else:
+		myMedia = makeSound(tempFilePath)
+	return myMedia
+
+def damageDealt():
+	import random
+	for x in range(10):
+		damage = random.randint(1,5)
+	return damage		
 
 def greenScreenOffset(pic, bg, offX, offY):
 	for x in range(0, getWidth(pic)):
@@ -181,43 +196,10 @@ def moveRight(hero, pic, bg, lockedBG):
 #======================================================================================================================
 
 def startGame():
-	
-	'''
-	###
-
-	#make variable global so game can be over during battle sequence
-	global game
- 
-	#Collect userName for dialogs (particularly the win sequence) 
-	userName = requestString("Hello, traveler!  What do you call yourself?")
-	global userName
-
-   	#initiate hitpoints - to be increased by finding shield and enchanted items and later passed to battle function
-	defaultHitpoints = 20
-	hitpoints = defaultHitpoints
-	global hitpoints #global to be adjusted in various functions
-	
-	shield = "in place"
-	sword = "in place"
-	treasure = "in place"
-	treasureDrink = "in place"
-	inventory = {}
-  	#global variables to be referenced and adjusted in various functions
-	global hitpoints, sword, treasure, treasureDrink
-	global inventory
-	soundfile5 = r"C:\Users\Me\Downloads\FINAL PROJECT FILES\Inventory\sounds\Pick up item 1.wav"
-	itemSound = makeSound(soundfile5)
-	global itemSound
- 
-
-	###
-	'''
-	
 
 	userName = requestString("Hello, traveler!  What do you call yourself?")
 	if userName == None:
 		userName = "MrImTooGoodToGiveAName"
-
 
 	#initialize grid points
 	b2 = GridPoint(0,0,0,1)
@@ -446,23 +428,10 @@ def startGame():
 	j12.setNorthObj(j11)
 
 	game = "on"
-	
-	#gamePhase - menu, menu-map, map, battle, gameover
-
 	gamePhase = "menu"
 
-	if getOS() == "win":
-		#windows
-		tempFilePath = "C:\\Windows\\Temp\\menu.jpg"
-	else:
-		#mac/linux
-		tempFilePath = tempfile.gettempdir() + "menu.jpg"
-
-	data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/menu.jpg', tempFilePath)
-	bg = makePicture(tempFilePath)
-
+	bg = getMedia("img", "menu")
 	show(bg)
-
 
 	while game != "over":
 
@@ -479,85 +448,33 @@ def startGame():
 			if userInput == "1":
 				#Link
 				gamePhase = "menu-map"
-
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\linkSmall.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "linkSmall.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/linkSmall.jpg', tempFilePath)
-				pic = makePicture(tempFilePath)
+				pic = getMedia("img", "linkSmall")
 				myHero.setCharType("link")
 
 			if userInput == "2":
 				#Turtle
 				gamePhase = "menu-map"
-
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\turtleSmall.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "turtleSmall.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/turtleSmall.jpg', tempFilePath)
-				pic = makePicture(tempFilePath)
+				pic = getMedia("img", "turtleSmall")
 				myHero.setCharType("turtle")
 
 			if userInput == "3":
 				#Princess Zelda
 				gamePhase = "menu-map"
-
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\princessSmall.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "princessSmall.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/princessSmall.jpg', tempFilePath)
-				pic = makePicture(tempFilePath)
+				pic = getMedia("img", "princessSmall")
 				myHero.setCharType("princess")
 
 			if userInput == "4":
 				#IronMan
 				gamePhase = "menu-map"
-
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\ironManSmall.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "ironManSmall.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/ironManSmall.jpg', tempFilePath)
-				pic = makePicture(tempFilePath)
+				pic = getMedia("img", "ironManSmall")
 				myHero.setCharType("ironMan")
 				
 
 		if gamePhase == "menu-map":
 
-			if getOS() == "win":
-				#windows
-				tempFilePath = "C:\\Windows\\Temp\\bg.jpg"
-			else:
-				#mac/linux
-				tempFilePath = tempfile.gettempdir() + "bg.jpg"
+			mapBG = getMedia("img", "bg")
 
-			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/bg.jpg', tempFilePath)
-			mapBG = makePicture(tempFilePath)
-
-			if getOS() == "win":
-				#windows
-				tempFilePath = "C:\\Windows\\Temp\\lockedBG.jpg"
-			else:
-				#mac/linux
-				tempFilePath = tempfile.gettempdir() + "lockedBG.jpg"
-
-			data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/lockedBG.jpg', tempFilePath)
-			lockedBG = makePicture(tempFilePath)
+			lockedBG = getMedia("img", "lockedBG")
 
 			addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
 			repaint(bg)
@@ -602,15 +519,7 @@ def startGame():
 					printNow("Nothing to see here")
 				else:
 					myHero.setShield(True)
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\item.wav"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "item.wav"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
-					itemSound = makeSound(tempFilePath)
+					itemSound = getMedia("sound", "item")
 					play(itemSound)
 					printNow("\nYou can now use this shield to protect you from evil. You have gained 10 hit points")
 
@@ -620,15 +529,7 @@ def startGame():
 					printNow("Nothing to see here")
 				else:
 					myHero.setSword(True)
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\item.wav"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "item.wav"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
-					itemSound = makeSound(tempFilePath)
+					itemSound = getMedia("sound", "item")
 					play(itemSound)
 					printNow("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
 
@@ -638,15 +539,7 @@ def startGame():
 					printNow("Nothing to see here")
 				else:
 					myHero.setPotion(True)
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\item.wav"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "item.wav"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
-					itemSound = makeSound(tempFilePath)
+					itemSound = getMedia("sound", "item")
 					play(itemSound)
 					printNow("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4")
 
@@ -656,92 +549,34 @@ def startGame():
 					printNow("Nothing to see here")
 				else:
 					myHero.setPotion(True)
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\item.wav"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "item.wav"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/item.wav', tempFilePath)
-					itemSound = makeSound(tempFilePath)
+					itemSound = getMedia("sound", "item")
 					play(itemSound)
 					printNow("\nYou have found a magical ring that increases your hit points by 8")
 
 			if currentGridPoint == d4:
 				#setup everything for the battle
 				#redraw bg
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\vsBG.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "vsBG.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/vsBG.jpg', tempFilePath)
-				vsBG = makePicture(tempFilePath)
+				vsBG = getMedia("img", "vsBG")
 
 				addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
 				repaint(bg)
 
 				replaceBG(bg, vsBG)
 
-				#add chars to vs screen
-
 				if myHero.getCharType() == "link":
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\linkLarge.jpg"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "linkLarge.jpg"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/linkLarge.jpg', tempFilePath)
-					largeHero = makePicture(tempFilePath)
+					largeHero = getMedia("img", "linkLarge")
 
 				if myHero.getCharType() == "turtle":
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\turtleLarge.jpg"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "turtleLarge.jpg"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/turtleLarge.jpg', tempFilePath)
-					largeHero = makePicture(tempFilePath)
+					largeHero = getMedia("img", "turtleLarge")
 
 				if myHero.getCharType() == "princess":
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\princessLarge.jpg"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "princessLarge.jpg"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/princessLarge.jpg', tempFilePath)
-					largeHero = makePicture(tempFilePath)
+					largeHero = getMedia("img", "princessLarge")
 
 				if myHero.getCharType() == "ironMan":
-					if getOS() == "win":
-						#windows
-						tempFilePath = "C:\\Windows\\Temp\\ironManLarge.jpg"
-					else:
-						#mac/linux
-						tempFilePath = tempfile.gettempdir() + "ironManLarge.jpg"
-
-					data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/ironManLarge.jpg', tempFilePath)
-					largeHero = makePicture(tempFilePath)
+					largeHero = getMedia("img", "ironManLarge")
 
 				#bad guy large
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\zomaLarge.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "zomaLarge.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/zomaLarge.jpg', tempFilePath)
-				largeEnemy = makePicture(tempFilePath)
+				largeEnemy = getMedia("img", "zomaLarge")
 
 				#set largeHero
 				greenScreenOffset(largeHero, bg, 38, 170)
@@ -749,20 +584,11 @@ def startGame():
 				repaint(bg)
 
 				#play monster sound
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\monster.wav"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "monster.wav"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/monster.wav', tempFilePath)
-				monsterSound = makeSound(tempFilePath)
+				monsterSound = getMedia("sound", "monster")
 				play(monsterSound)
 
 				gamePhase = "battle"
 				doOnce = True
-				printNow("dungeon")
 				#prepare hitpoints here
 				heroHP = 20
 				bossHitpoints = 50
@@ -777,73 +603,16 @@ def startGame():
 
 		if gamePhase == "battle":
 
-			#doOnce, preload sounds for battle
+			#doOnce, preload media for battle
 			
 			if doOnce:
-				#
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\sword.wav"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "sword.wav"
 
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/sword.wav', tempFilePath)
-				swordSound = makeSound(tempFilePath)
-
-				#
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\punch.wav"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "punch.wav"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/punch.wav', tempFilePath)
-				punchSound = makeSound(tempFilePath)
-
-				#
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\win.wav"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "win.wav"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/win.wav', tempFilePath)
-				winSound = makeSound(tempFilePath)
-
-				#
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\gameOver.wav"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "gameOver.wav"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/sound/gameOver.wav', tempFilePath)
-				gameOverSound = makeSound(tempFilePath)
-
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\win.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "win.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/win.jpg', tempFilePath)
-				winBG = makePicture(tempFilePath)
-
-				if getOS() == "win":
-					#windows
-					tempFilePath = "C:\\Windows\\Temp\\gameOver.jpg"
-				else:
-					#mac/linux
-					tempFilePath = tempfile.gettempdir() + "gameOver.jpg"
-
-				data = urllib.urlretrieve('https://raw.githubusercontent.com/cst205Francisco/cst205final/master/img/gameOver.jpg', tempFilePath)
-				gameOverBG = makePicture(tempFilePath)
-				
+				swordSound = getMedia("sound", "sword")
+				punchSound = getMedia("sound", "punch")
+				winSound = getMedia("sound", "win")
+				gameOverSound = getMedia("sound", "gameOver")
+				winBG = getMedia("img", "win")
+				gameOverBG = getMedia("img", "gameOver")
 				doOnce = False
 
 			userInput = requestString("Attack or Run?")
@@ -972,286 +741,4 @@ def startGame():
 
 		if userInput == "exit":
 			game = "over"
-
-#======================================================================================================================
-
-def battle(hitpoints):
-  import urllib
-  import tempfile
-  import time #to wait for swords to finish before winning or losing sound
-  
-  #THIS FUNCTION SHOULD TO BE GIVEN THE CHARACTER AS A PARAMETER SO IT KNOWS WHICH LARGE IMAGE TO BE LOADED ONTO THE BG IMAGE
-  game = "on" #code needed to run battle independent of game() for testing. otherwise should just carry through as global
-  userName = "test player" #code needed to run battle independent of game() for testing. otherwise should just carry through as global
-  treasureDrink = "obtained" #code needed to run battle independent of game() for testing. otherwise should just carry through as global
-  inventory = {"half a drink": 4} #code needed to run battle independent of game() for testing. otherwise should just carry through as global
-    
-  #print tempfile.gettempdir() #not functioning currently JD
-  #winImage = urllib.urlretrieve(http://whitenebula.com/csumb/cst205/final/battlebg.jpg, tempFilePath + "\\win.jpg")
-  
-  
-  global userName
-  global game
-  global inventory
-  global treasureDrink
-  
-  bossHitpoints = 50
-  filename1 = r"C:\Users\jdunham\Desktop\battle\VS.jpg"  
-  filename2 = r"C:\Users\jdunham\Desktop\battle\turtleVS.jpg"
-  filename3 = r"C:\Users\jdunham\Desktop\battle\ZomaVS.jpg"
-  filename4 = r"C:\Users\jdunham\Desktop\battle\GameOver.jpg"
-  filename5 = r"C:\Users\jdunham\Desktop\battle\YouWin.jpg"
-  soundfile1 = r"C:\Users\jdunham\Desktop\battle\monsterBattleSound.wav"
-  soundfile2 = r"C:\Users\jdunham\Desktop\battle\swords2.wav"
-  soundfile3 = r"C:\Users\jdunham\Desktop\battle\winning3.wav"
-  soundfile4 = r"C:\Users\jdunham\Desktop\battle\sadtrombone.wav"
-  
-  battleStartSound = makeSound(soundfile1)
-  swordsSound = makeSound(soundfile2)
-  winningSound = makeSound(soundfile3)
-  losingSound = makeSound(soundfile4)
-  
-  #intentionally using same variable name as game because map should be replaced by battle image upon commencement of battle
-  bg = makePicture(filename1)
-  
-  #IDEALLY, THIS SHOULD BE AN IF SCENARIO THAT CHROMAKEYS YOUR CHARACTER BASED ON THE CHARACTER YOU CHOSE EARLIER
-
-  #image original source: http://img3.wikia.nocookie.net/__cb20120602231304/mario/images/3/32/8_Bit_Mario.png
-  largeChar = makePicture(filename2)
-  
-  #image original source: http://villains.wikia.com/wiki/File:Psaro_8-bit.jpg
-  largeBadGuy = makePicture(filename3)
-  
-  bg = blCopy(largeChar, bg, 38, 170)
-  bg = blCopy(largeBadGuy, bg, 372, 160)
-  
-  if treasureDrink == "obtained":
-    while game != "over":
-      userInput = requestString("This place is kind of scary. You're getting weak in the knees.\nMaybe you should drink the rest of that disgusting tasting potion.\nIt seemed to make you feel better.\n\nY/N")
-      userInput = userInput.lower()
-      if userInput == ("y" or "yes" or "drink"):
-        printNow("You pour the rest of that foul-tasting liquid down your throat.\nHey! You DO feel better!\nYou gain " + str(inventory['half a drink']) + " hit points!\n")
-        hitpoints += inventory['half a drink']
-        del inventory['half a drink']
-        printNow(inventory)
-        break
-      elif userInput == ("n" or "no"):
-        printNow("Your taste buds thank you.\n")
-        break
-      else:
-        printNow("\nInvalid command")  
-  
-  repaint(bg)
-  play(battleStartSound)
-  printNow("You might have found me, but you will never stop me!")
-  printNow("You will never get back your precious XXXXXXXX!")
-  
-      
-  while game != "over":
-    userInput = requestString("Attack or Run?")
-    userInput = userInput.lower()
-    if userInput == "exit":
-      game = "over"
-    elif userInput == "run":
-      play(losingSound)
-      printNow("Coward!  I am not above stabbing you in the back!")
-      printNow("And NOW I HAVE!  Your meaningless life is OVER!")
-      printNow("\n\nYou died.")
-      game = "over"      
-    else:
-    #elif userInput == "attack" or userInput == "fight": 
-      #ADD IF SWORD IN INVENTORY - ELSE FIGHT WITH FISTS
-      #Attack bad guy
-
-      printNow("You swing your sword and connect!")
-      play(swordsSound)
-      damage = damageDealt()
-      printNow("You connect for " + str(damage) + " damage!")
-      bossHitpoints -= damage
-      if bossHitpoints > 0:
-        printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
-        printNow("You're getting there!\n")
-      else:
-        printNow("\nYou have defeated bad guy and saved XXXXX!")
-        printNow("All is well in the kingdom.")
-        printNow("Great job, " + userName + "!")
-        printNow("You kicked a lot of ASCII today!")
-        time.sleep(5)
-        play(winningSound)
-                
-        #intentionally using same variable name, bg, as battle screen should be replaced by game win image upon winning
-        bg = makePicture(filename5)
-        repaint(bg)
-        game = "over"
-      
-      #Bad guy counter-attack
-      if bossHitpoints > 0:
-        printNow("Bad guy counter-attacks!")
-        #play(swordsSound) #not needed - other sound is long enough for the full battle.
-        damage = damageDealt()
-        printNow("He strikes for " +str(damage) + " damage!")
-        hitpoints -= damage
-        printNow("Ouch! That hurt.")
-        if hitpoints > 0:
-          printNow("You have " + str(hitpoints) + " remaining.\n")
-        else:
-          printNow("\nYou have been defeated.")
-          printNow("You're done, dead, finito.")
-          printNow("XXXXX will forever be the captive of bad guy.")
-          printNow("The world is a dreary, hopeless place.\n")
-          time.sleep(5)
-          play(losingSound)
-          
-          #intentionally using same variable name, bg, as battle screen should be replaced by game lose image upon losing
-          bg = makePicture(filename4)
-          repaint(bg)
-          game = "over"        
-        
-#======================================================================================================================
-
-def damageDealt():
-	import random
-	for x in range(10):
-		damage = random.randint(1,5)
-	return damage
-  
-#======================================================================================================================
-
-def blCopy(source, target, targetX, targetY):
-  """copy a picture onto a target picture excluding blue"""
-  for x in range (0, getWidth(source)):
-    for y in range (0, getHeight(source)):
-      color = getColor(getPixel(source, x, y))
-      if distance(color, blue) > 170.0:
-        setColor(getPixel(target, x+targetX, y+targetY), color)
-  return target    	
-  	
-#======================================================================================================================
-
-#Sword function
-
-def swordFunc():
-  
-  # Global variables
-  global game
-  global inventory
-  global sword
-  global userInput
-  global hitpoints
-  # List of words to obtain items
-  swordList = ["sword", "get sword", "take sword", "pickup sword", "pull sword", "pick up sword"]
-  # Ask for user input
-  userInput = requestString("You are near a sword")
-  userInput = userInput.lower()
-  # Loop through exit and items
-  while game != "over":
-    if userInput == "exit":
-      game = "over"
-    elif userInput in swordList:
-      inventory["sword"] = 4
-      sword = "obtained"
-      play(itemSound)
-      printNow("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained " + str(inventory["sword"]) + " hit points")
-      printNow("Inventory: " + inventory)
-      return
-    else:
-      printNow("\nInvalid command")
-
-#======================================================================================================================
-
-#Shield function
-            
-def shieldFunc():
-  # Global variables
-  global game
-  global inventory
-  global shield
-  global userInput
-  global hitpoints
-  # List of words to obtain items
-  shieldList = ["shield", "get shield", "take shield", "pickup shield", "pull shield", "pick up shield"]
-  # Ask for user input
-  userInput = requestString("you are near a shield ")
-  userInput = userInput.lower()
-  # Loop through exit and items
-  while game != "over":
-    if userInput == "exit":
-      game = "over"
-    elif userInput in shieldList:
-      inventory["shield"] = 10
-      shield = "obtained"
-      play(itemSound)
-      printNow("\nYou can now use this shield to protect you from evil. You have gained " + str(inventory["shield"]) + " hit points")
-      printNow("Inventory: " + inventory)
-      return
-    else:
-      printNow("\nInvalid command")
-
-#======================================================================================================================
-
-#Treasure chest w/ ring function
-
-def treasureFunc():
-  # Global variables
-  global game
-  global inventory
-  global userInput
-  global treasure
-  global hitpoints
-  # List of words to obtain items  
-  treasureList = ["open", "use", "treasure", "chest", "get treasure", "take treasure", "pickup treasure", "pull treasure", "pick up treasure"]
-  # Ask for user input
-  userInput = requestString("you are near a treasure chest ")
-  userInput = userInput.lower()
-  # Loop through exit and items
-  while game != "over":
-    if userInput == "exit":
-      game = "over"
-    elif userInput in treasureList:
-      inventory["ring"] = 8
-      ring = "obtained"
-      play(itemSound)
-      printNow("\nYou have found a magical ring that increases your hit points by " + str(inventory["ring"]))
-      printNow("Inventory: " + inventory)
-      return
-    else:
-      printNow("\nInvalid command")
-
-#======================================================================================================================
-
-#Treasure chest w/ drink function
-
-def treasureDrinkFunc():
-  # Global variables
-  global game
-  global inventory
-  global userInput
-  global treasure
-  global treasureDrink
-  global hitpoints
-  # List of words to obtain items 
-  drinkList = ["open", "use", "treasure", "chest", "get treasure", "take treasure", "pickup treasure", "pull treasure", "pick up treasure"]
-  # Ask for user input
-  userInput = requestString("you are near a treasure chest ")
-  userInput = userInput.lower()
-  # Loop through exit and items
-  while game != "over":
-    if userInput == "exit":
-      game = "over"
-    elif userInput in drinkList:
-      inventory["half a drink"] = 4
-      treasureDrink = "obtained"
-      play(itemSound)
-      printNow("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by " + str(inventory["half a drink"]))
-      printNow("Inventory: " + inventory)
-      return
-    else:
-      printNow("\nInvalid command")
-
-#======================================================================================================================
-
-
-
-
-
 
