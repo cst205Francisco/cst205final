@@ -548,7 +548,7 @@ def startGame():
 				if myHero.hasRing():
 					printNow("Nothing to see here")
 				else:
-					myHero.setPotion(True)
+					myHero.setRing(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
 					printNow("\nYou have found a magical ring that increases your hit points by 8")
