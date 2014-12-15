@@ -200,7 +200,7 @@ def startGame():
 	userName = requestString("Hello, traveler!  What do you call yourself?")
 	if userName == None:
 		userName = "MrImTooGoodToGiveAName"
-	showInformation("Hello, " + userName + "!  You have arrived at the perfect time.  Lord Azroth is in dire need of a hero!  His beloved son has been captured by the evil Ergamoth.")
+	showInformation("Hello, " + userName + "!  You have arrived at the perfect time.  Lord Azroth is in dire need of a hero!  His beloved son has been captured by the evil Ergamoth.  You the hero we need!")
 	#initialize grid points
 	b2 = GridPoint(0,0,0,1)
 	c2 = GridPoint(0,0,1,1)
@@ -486,6 +486,8 @@ def startGame():
 			repaint(bg)
 
 			currentGridPoint = j12
+   
+			showInformation("To navigate, follow these instructions! w = up, a = right, s = down, d = right.")
 
 			gamePhase = "map"
 
@@ -497,19 +499,19 @@ def startGame():
 			else:
 				userInput = userInput.lower()
 
-			if (userInput == "down" or userInput == "d") and currentGridPoint.hasSouth():
+			if (userInput == "down" or userInput == "s") and currentGridPoint.hasSouth():
 				moveDown(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getSouthObj()
 
-			if (userInput == "up" or userInput == "u") and currentGridPoint.hasNorth():
+			if (userInput == "up" or userInput == "w") and currentGridPoint.hasNorth():
 				moveUp(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getNorthObj()
 
-			if (userInput == "left" or userInput == "l") and currentGridPoint.hasWest():
+			if (userInput == "left" or userInput == "a") and currentGridPoint.hasWest():
 				moveLeft(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getWestObj()
 
-			if (userInput == "right" or userInput == "r") and currentGridPoint.hasEast():
+			if (userInput == "right" or userInput == "d") and currentGridPoint.hasEast():
 				moveRight(myHero, pic, bg, lockedBG)
 				currentGridPoint = currentGridPoint.getEastObj()
 
@@ -519,7 +521,7 @@ def startGame():
 					myHero.setShield(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou can now use this shield to protect you from evil. You have gained 10 hit points")
+					showInformation("You can now use this shield to protect you from evil. You have gained 10 hit points")
 
 			if currentGridPoint == o11:
 				#sword
@@ -527,7 +529,7 @@ def startGame():
 					myHero.setSword(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
+					showInformation("You are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
 
 			if currentGridPoint == o2:
 				#potion
@@ -535,7 +537,7 @@ def startGame():
 					myHero.setPotion(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4")
+					showInformation("You have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4.")
 
 			if currentGridPoint == b2:
 				#ring
@@ -543,7 +545,7 @@ def startGame():
 					myHero.setRing(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou have found a magical ring that increases your hit points by 8")
+					showInformation("You have found a magical ring that increases your hit points by 8")
 
 			if currentGridPoint == d4:
 				#setup everything for the battle
