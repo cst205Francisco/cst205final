@@ -519,7 +519,7 @@ def startGame():
 					myHero.setShield(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou can now use this shield to protect you from evil. You have gained 10 hit points")
+					showInformation("\nYou can now use this shield to protect you from evil. You have gained 10 hit points")
 
 			if currentGridPoint == o11:
 				#sword
@@ -527,7 +527,7 @@ def startGame():
 					myHero.setSword(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
+					showInformation("\nYou are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
 
 			if currentGridPoint == o2:
 				#potion
@@ -535,7 +535,7 @@ def startGame():
 					myHero.setPotion(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4")
+					showInformation("\nYou have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4")
 
 			if currentGridPoint == b2:
 				#ring
@@ -543,7 +543,7 @@ def startGame():
 					myHero.setRing(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					printNow("\nYou have found a magical ring that increases your hit points by 8")
+					showInformation("\nYou have found a magical ring that increases your hit points by 8")
 
 			if currentGridPoint == d4:
 				#setup everything for the battle
@@ -619,9 +619,9 @@ def startGame():
 				repaint(bg)
 				replaceBG(bg, gameOverBG)
 				repaint(bg)
-				printNow("Coward!  I am not above stabbing you in the back!")
-				printNow("And NOW I HAVE!  Your meaningless life is OVER!")
-				printNow("\n\nYou died.")
+				showInformation("Coward!  I am not above stabbing you in the back!")
+				showInformation("And NOW I HAVE!  Your meaningless life is OVER!")
+				showInformation("\n\nYou died.")
 
 				play(gameOverSound)
 				game = "over"
@@ -630,11 +630,11 @@ def startGame():
 				#battle sequence
 				if myHero.hasSword():
 					#sword battle
-					printNow("You swing your sword and connect!")
+					showInformation("You swing your sword and connect!")
 					play(swordSound)
 					damage = damageDealt()
 					damage *= 2
-					printNow("You connect for " + str(damage) + " damage!")
+					showInformation("You connect for " + str(damage) + " damage!")
 					bossHitpoints -= damage
 					if bossHitpoints <= 0:
 						
@@ -646,24 +646,24 @@ def startGame():
 						replaceBG(bg, winBG)
 						repaint(bg)
 
-						printNow("\nYou have defeated bad guy and saved the Universe!!")
-						printNow("All is well in the kingdom.")
-						printNow("Great job, " + userName + "!")
-						printNow("You kicked a lot of ASCII today!")
+						showInformation("\nYou have defeated bad guy and saved the Universe!!")
+						showInformation("All is well in the kingdom.")
+						showInformation("Great job, " + userName + "!")
+						showInformation("You kicked a lot of ASCII today!")
 
 						play(winSound)
 						game = "over"
 					else:
-						printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
-						printNow("You're getting there!\n")
-						printNow("Bad guy counter-attacks!")
+						showInformation("Bad Guy has " + str(bossHitpoints) + " remaining.")
+						showInformation("You're getting there!\n")
+						showInformation("Bad guy counter-attacks!")
 						damage = damageDealt()
-						printNow("He strikes for " +str(damage) + " damage!")
+						showInformation("He strikes for " +str(damage) + " damage!")
 						heroHP -= damage
-						printNow("Ouch! That hurt.")
+						showInformation("Ouch! That hurt.")
 
 						if heroHP > 0:
-							printNow("You have " + str(heroHP) + " remaining.\n")
+							showInformation("You have " + str(heroHP) + " remaining.\n")
 						else:
 							
 							time.sleep(5)
@@ -674,19 +674,19 @@ def startGame():
 							replaceBG(bg, gameOverBG)
 							repaint(bg)
 
-							printNow("\nYou have been defeated.")
-							printNow("You're done, dead, finito.")
-							printNow("The world is a dreary, hopeless place.\n")
+							showInformation("\nYou have been defeated.")
+							showInformation("You're done, dead, finito.")
+							showInformation("The world is a dreary, hopeless place.\n")
 
 							play(gameOverSound)
 							game = "over"
 
 				else:
 					#fist battle
-					printNow("You swing your fists and connect!")
+					showInformation("You swing your fists and connect!")
 					play(punchSound)
 					damage = damageDealt()
-					printNow("You connect for " + str(damage) + " damage!")
+					showInformation("You connect for " + str(damage) + " damage!")
 					bossHitpoints -= damage
 					if bossHitpoints <= 0:
 						
@@ -699,22 +699,22 @@ def startGame():
 						repaint(bg)
 
 						play(winSound)
-						printNow("\nYou have defeated bad guy and saved the Universe!!")
-						printNow("All is well in the kingdom.")
-						printNow("Great job, " + userName + "!")
-						printNow("You kicked a lot of ASCII today!")
+						showInformation("\nYou have defeated bad guy and saved the Universe!!")
+						showInformation("All is well in the kingdom.")
+						showInformation("Great job, " + userName + "!")
+						showInformation("You kicked a lot of ASCII today!")
 						game = "over"
 					else:
-						printNow("Bad Guy has " + str(bossHitpoints) + " remaining.")
-						printNow("You're getting there!\n")
-						printNow("Bad guy counter-attacks!")
+						showInformation("Bad Guy has " + str(bossHitpoints) + " remaining.")
+						showInformation("You're getting there!\n")
+						showInformation("Bad guy counter-attacks!")
 						damage = damageDealt()
-						printNow("He strikes for " +str(damage) + " damage!")
+						showInformation("He strikes for " +str(damage) + " damage!")
 						heroHP -= damage
-						printNow("Ouch! That hurt.")
+						showInformation("Ouch! That hurt.")
 
 					if heroHP > 0:
-						printNow("You have " + str(heroHP) + " remaining.\n")
+						showInformation("You have " + str(heroHP) + " remaining.\n")
 					else:
 						
 						time.sleep(5)
@@ -726,9 +726,9 @@ def startGame():
 						repaint(bg)
 
 						play(gameOverSound)
-						printNow("\nYou have been defeated.")
-						printNow("You're done, dead, finito.")
-						printNow("The world is a dreary, hopeless place.\n")
+						showInformation("\nYou have been defeated.")
+						showInformation("You're done, dead, finito.")
+						showInformation("The world is a dreary, hopeless place.\n")
 						game = "over"
 
 		if userInput == "exit":
