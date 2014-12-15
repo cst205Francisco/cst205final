@@ -200,7 +200,7 @@ def startGame():
 	userName = requestString("Hello, traveler!  What do you call yourself?")
 	if userName == None:
 		userName = "MrImTooGoodToGiveAName"
-
+	showInformation("Hello, " + userName + "!  You have arrived at the perfect time.  Lord Azroth is in dire need of a hero!  His beloved son has been captured by the evil Ergamoth.")
 	#initialize grid points
 	b2 = GridPoint(0,0,0,1)
 	c2 = GridPoint(0,0,1,1)
@@ -515,9 +515,7 @@ def startGame():
 
 			if currentGridPoint == b9:
 				#shield
-				if myHero.hasShield():
-					printNow("Nothing to see here")
-				else:
+				if not myHero.hasShield():
 					myHero.setShield(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
@@ -525,9 +523,7 @@ def startGame():
 
 			if currentGridPoint == o11:
 				#sword
-				if myHero.hasSword():
-					printNow("Nothing to see here")
-				else:
+				if not myHero.hasSword():
 					myHero.setSword(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
@@ -535,9 +531,7 @@ def startGame():
 
 			if currentGridPoint == o2:
 				#potion
-				if myHero.hasPotion():
-					printNow("Nothing to see here")
-				else:
+				if not myHero.hasPotion():
 					myHero.setPotion(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
@@ -545,9 +539,7 @@ def startGame():
 
 			if currentGridPoint == b2:
 				#ring
-				if myHero.hasRing():
-					printNow("Nothing to see here")
-				else:
+				if not myHero.hasRing():
 					myHero.setRing(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
