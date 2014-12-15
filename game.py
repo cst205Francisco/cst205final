@@ -594,7 +594,7 @@ def startGame():
 				if myHero.hasRing():
 					heroHP += 8
 				if myHero.hasPotion():
-					heroHP += 8
+					heroHP += 4
 				if myHero.hasShield():
 					heroHP += 10
 
@@ -618,28 +618,24 @@ def startGame():
 			else:
 				userInput = userInput.lower()
 
-			if userInput == "run":
+			if userInput == "run" or userInput == "r":
 				
 				addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
 				repaint(bg)
 				replaceBG(bg, gameOverBG)
 				repaint(bg)
-				showInformation("Coward!  I am not above stabbing you in the back!")
-				showInformation("And NOW I HAVE!  Your meaningless life is OVER!")
-				showInformation("\n\nYou died.")
-
+				showInformation("Coward!  I am not above stabbing you in the back! And NOW I HAVE!\nYour meaningless life is OVER!\n\nYou died.")
 				play(gameOverSound)
 				game = "over"
 
-			if userInput == "attack":
+			if userInput == "attack" or userInput == "a":
 				#battle sequence
 				if myHero.hasSword():
 					#sword battle
-					showInformation("You swing your sword and connect!")
 					play(swordSound)
 					damage = damageDealt()
 					damage *= 2
-					showInformation("You connect for " + str(damage) + " damage!")
+					showInformation("You swing your sword and connect!\nYou connect for " + str(damage) + " damage!")
 					bossHitpoints -= damage
 					if bossHitpoints <= 0:
 						
@@ -650,48 +646,33 @@ def startGame():
 						repaint(bg)
 						replaceBG(bg, winBG)
 						repaint(bg)
-
-						showInformation("\nYou have defeated bad guy and saved the Universe!!")
-						showInformation("All is well in the kingdom.")
-						showInformation("Great job, " + userName + "!")
-						showInformation("You kicked a lot of ASCII today!")
-
+						showInformation("You have defeated Ergamoth and saved Ezrath's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
 						play(winSound)
 						game = "over"
 					else:
-						showInformation("Bad Guy has " + str(bossHitpoints) + " remaining.")
-						showInformation("You're getting there!\n")
-						showInformation("Bad guy counter-attacks!")
 						damage = damageDealt()
-						showInformation("He strikes for " +str(damage) + " damage!")
 						heroHP -= damage
-						showInformation("Ouch! That hurt.")
+						showInformation("Ergamoth has " + str(bossHitpoints) + " remaining.\nYou're getting there!\n\nBad guy counter-attacks!\nHe strikes for " +str(damage) + " damage!\nOuch! That hurt.")
 
 						if heroHP > 0:
 							showInformation("You have " + str(heroHP) + " remaining.\n")
 						else:
 							
 							time.sleep(5)
-							
 							#redraw bg
 							addTextWithStyle(bg, 150, 275, "Loading...", makeStyle(sansSerif, bold, 70), white)
 							repaint(bg)
 							replaceBG(bg, gameOverBG)
 							repaint(bg)
-
-							showInformation("\nYou have been defeated.")
-							showInformation("You're done, dead, finito.")
-							showInformation("The world is a dreary, hopeless place.\n")
-
+							showInformation("You have been defeated.\nYou're done, dead, finito.\nThe world is a dreary, hopeless place.")
 							play(gameOverSound)
 							game = "over"
 
 				else:
 					#fist battle
-					showInformation("You swing your fists and connect!")
 					play(punchSound)
 					damage = damageDealt()
-					showInformation("You connect for " + str(damage) + " damage!")
+					showInformation("You swing your fists and connect!\nYou connect for " + str(damage) + " damage!")
 					bossHitpoints -= damage
 					if bossHitpoints <= 0:
 						
@@ -704,22 +685,15 @@ def startGame():
 						repaint(bg)
 
 						play(winSound)
-						showInformation("\nYou have defeated bad guy and saved the Universe!!")
-						showInformation("All is well in the kingdom.")
-						showInformation("Great job, " + userName + "!")
-						showInformation("You kicked a lot of ASCII today!")
+						showInformation("You have defeated Ergamoth and saved Ezrath's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
 						game = "over"
 					else:
-						showInformation("Bad Guy has " + str(bossHitpoints) + " remaining.")
-						showInformation("You're getting there!\n")
-						showInformation("Bad guy counter-attacks!")
 						damage = damageDealt()
-						showInformation("He strikes for " +str(damage) + " damage!")
+						showInformation("Ergamoth has " + str(bossHitpoints) + " remaining.\nYou're getting there!\nErgamoth counter-attacks!\nHe strikes for " +str(damage) + " damage!\nOuch. That hurt.")
 						heroHP -= damage
-						showInformation("Ouch! That hurt.")
 
 					if heroHP > 0:
-						showInformation("You have " + str(heroHP) + " remaining.\n")
+						showInformation("You have " + str(heroHP) + " hit points remaining.\n")
 					else:
 						
 						time.sleep(5)
@@ -731,9 +705,7 @@ def startGame():
 						repaint(bg)
 
 						play(gameOverSound)
-						showInformation("\nYou have been defeated.")
-						showInformation("You're done, dead, finito.")
-						showInformation("The world is a dreary, hopeless place.\n")
+						showInformation("You have been defeated.\nYou're done, dead, finito.\nThe world is a dreary, hopeless place.")
 						game = "over"
 
 		if userInput == "exit":
