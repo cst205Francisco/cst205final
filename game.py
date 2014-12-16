@@ -436,6 +436,8 @@ def startGame():
 	while game != "over":
 
 		if gamePhase == "menu":
+			introSound = getMedia("sound", "intro")
+			play(introSound)
 			#choose your character
 			userInput = requestString("Choose your character!")
 			if userInput == None:
@@ -487,7 +489,7 @@ def startGame():
 
 			currentGridPoint = j12
    
-			showInformation("To navigate, follow these instructions! \nw = up,    a = right,    s = down,    d = right.")
+			showInformation("To navigate, follow these instructions! \nw = up,    a = right,    s = down,    d = right       (\"exit\" to quit)")
 
 			gamePhase = "map"
 
