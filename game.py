@@ -657,7 +657,7 @@ def startGame():
 						repaint(bg)
 						replaceBG(bg, winBG)
 						repaint(bg)
-						showInformation("You swing your sword!\nYou connect for " + str(damageGiven) + " damage!\nYou have defeated Ergamoth and saved Ezrath's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
+						showInformation("You swing your sword!\nYou connect for " + str(damageGiven) + " damage!\nYou have defeated Ergamoth and saved Azroth's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
 						play(winSound)
 						game = "over"
 					else:
@@ -695,7 +695,7 @@ def startGame():
 						repaint(bg)
 
 						play(winSound)
-						showInformation("You swing your fists!\nYou connect for " + str(damageGiven) + " damage!\nYou have defeated Ergamoth and saved Ezrath's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
+						showInformation("You swing your fists!\nYou connect for " + str(damageGiven) + " damage!\nYou have defeated Ergamoth and saved Azroth's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
 						game = "over"
 					else:
 						damage = damageDealt()*2
