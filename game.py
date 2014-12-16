@@ -618,7 +618,10 @@ def startGame():
 
 			if myHero.hasPotion():
 				userInput = requestString("This place is kind of scary. You're getting weak in the knees.\nMaybe you should drink the rest of that disgusting tasting potion.\nIt seemed to make you feel better.\n\nY/N")
-				userInput = userInput.lower()
+				if userInput == None:
+					userInput = "n"
+				else:
+					userInput = userInput.lower()
 				if userInput == ("y" or "yes" or "drink"):
 					showInformation("You pour the rest of that foul-tasting liquid down your throat.\nHey! You DO feel better!\nYou gain " + str(itemDict['halfPotion']) + " hit points!")
 					heroHP += itemDict['halfPotion']
