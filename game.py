@@ -614,6 +614,14 @@ def startGame():
 				gameOverBG = getMedia("img", "gameOver")
 				doOnce = False
 
+			if myHero.hasPotion():
+				userInput = requestString("This place is kind of scary. You're getting weak in the knees.\nMaybe you should drink the rest of that disgusting tasting potion.\nIt seemed to make you feel better.\n\nY/N")
+				userInput = userInput.lower()
+				if userInput == ("y" or "yes" or "drink"):
+					showInformation("You pour the rest of that foul-tasting liquid down your throat.\nHey! You DO feel better!\nYou gain 4 hit points!")
+					heroHP += 4
+				else:
+					showInformation("Your taste buds thank you.")
 			userInput = requestString("Enter \"a\" to attack or \"r\" to run.")
 			if userInput == None:
 				userInput = "run"
