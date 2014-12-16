@@ -82,7 +82,7 @@ class Hero:
 	def getCharType(self):
 		return self.charType
 
-#get user OS, either 'mac' or 'win'
+#get user OS, either 'mac' or 'win' to facilitate downloading of media files from web
 def getOS():
 	os = ""
 	ver = sys.platform.lower()
@@ -201,7 +201,9 @@ def startGame():
 	if userName == None:
 		userName = "MrImTooGoodToGiveAName"
 	showInformation("Hello, " + userName + "!  You have arrived at the perfect time.  Lord Azroth is in dire need of a hero!  His beloved son has been captured by the evil Ergamoth.  You are the hero we need!")
-	#initialize grid points
+	#inventory dictionary. item: hit point value
+	itemDict = {'ring':8, 'sword': 4, 'shield': 10, 'halfPotion': 4}
+ 	#initialize grid points
 	b2 = GridPoint(0,0,0,1)
 	c2 = GridPoint(0,0,1,1)
 	d2 = GridPoint(0,0,1,1)
@@ -454,7 +456,7 @@ def startGame():
 				myHero.setCharType("link")
 
 			if userInput == "2":
-				#Turtle
+				#TMNT
 				gamePhase = "menu-map"
 				pic = getMedia("img", "turtleSmall")
 				myHero.setCharType("turtle")
@@ -523,7 +525,7 @@ def startGame():
 					myHero.setShield(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					showInformation("You can now use this shield to protect you from evil. You have gained 10 hit points")
+					showInformation("You can now use this shield to protect you from evil. You have gained " + str(itemDict['shield']) + " hit points")
 
 
 			if currentGridPoint == o11:
@@ -532,7 +534,7 @@ def startGame():
 					myHero.setSword(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					showInformation("You are the chosen one, and you now possess the mightiest sword in the land. You have gained 4 hit points and double the damage!!")
+					showInformation("You are the chosen one, and you now possess the mightiest sword in the land. You have gained " + str(itemDict['sword']) + " hit points and double the damage!!")
 
 
 			if currentGridPoint == o2:
@@ -541,7 +543,7 @@ def startGame():
 					myHero.setPotion(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					showInformation("You have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by 4.")
+					showInformation("You have found a potion, you drink half, but stop because it tastes awful, but you feel powerful now and your hit points increase by " + str(itemDict['halfPotion']))
 
 
 			if currentGridPoint == b2:
@@ -550,7 +552,7 @@ def startGame():
 					myHero.setRing(True)
 					itemSound = getMedia("sound", "item")
 					play(itemSound)
-					showInformation("You have found a magical ring that increases your hit points by 8")
+					showInformation("You have found a magical ring that increases your hit points by " + str(itemDict['ring']))
 
 			if currentGridPoint == d4:
 				#setup everything for the battle
@@ -592,13 +594,13 @@ def startGame():
 				heroHP = 20
 				bossHitpoints = 50
 				if myHero.hasSword():
-					heroHP += 4
+					heroHP += itemDict['sword']
 				if myHero.hasRing():
-					heroHP += 8
+					heroHP += itemDict['ring']
 				if myHero.hasPotion():
-					heroHP += 4
+					heroHP += itemDict['halfPotion']
 				if myHero.hasShield():
-					heroHP += 10
+					heroHP += itemDict['shield']
 
 		if gamePhase == "battle":
 
@@ -618,8 +620,8 @@ def startGame():
 				userInput = requestString("This place is kind of scary. You're getting weak in the knees.\nMaybe you should drink the rest of that disgusting tasting potion.\nIt seemed to make you feel better.\n\nY/N")
 				userInput = userInput.lower()
 				if userInput == ("y" or "yes" or "drink"):
-					showInformation("You pour the rest of that foul-tasting liquid down your throat.\nHey! You DO feel better!\nYou gain 4 hit points!")
-					heroHP += 4
+					showInformation("You pour the rest of that foul-tasting liquid down your throat.\nHey! You DO feel better!\nYou gain " + str(itemDict['halfPotion']) + " hit points!")
+					heroHP += itemDict['halfPotion']
 					myHero.setPotion(False)
 				else:
 					showInformation("Your taste buds thank you.")
