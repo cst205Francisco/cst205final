@@ -636,8 +636,8 @@ def startGame():
 				repaint(bg)
 				replaceBG(bg, gameOverBG)
 				repaint(bg)
-				showInformation("Coward!  I am not above stabbing you in the back! And NOW I HAVE!\nYour meaningless life is OVER!\n\nYou died.")
 				play(gameOverSound)
+				showInformation("Coward!  I am not above stabbing you in the back! And NOW I HAVE!\nYour meaningless life is OVER!\n\nYou died.")
 				game = "over"
 
 			if userInput == "attack" or userInput == "a":
@@ -657,8 +657,8 @@ def startGame():
 						repaint(bg)
 						replaceBG(bg, winBG)
 						repaint(bg)
-						showInformation("You swing your sword!\nYou connect for " + str(damageGiven) + " damage!\nYou have defeated Ergamoth and saved Azroth's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
 						play(winSound)
+						showInformation("You swing your sword!\nYou connect for " + str(damageGiven) + " damage!\nYou have defeated Ergamoth and saved Azroth's beloved son!!\nAll is well in the kingdom.\nGreat job, " + userName + "!\nYou are the hero we needed. You kicked a lot of ASCII today!")
 						game = "over"
 					else:
 						damage = damageDealt()*2
@@ -674,8 +674,8 @@ def startGame():
 							repaint(bg)
 							replaceBG(bg, gameOverBG)
 							repaint(bg)
-							showInformation("You swing your sword!\nYou connect for " + str(damage) + " damage!\nErgamoth has " + str(bossHitpoints) + " hit points remaining.    \nYou're getting there!\n\nHe counter-attacks!\nHe strikes for " +str(damage) + " damage!\nOuch! That hurt.\nYou have been defeated.\nYou're done, dead, finito.\nThe world is a dreary, hopeless place.")
 							play(gameOverSound)
+							showInformation("You swing your sword!\nYou connect for " + str(damage) + " damage!\nErgamoth has " + str(bossHitpoints) + " hit points remaining.    \nYou're getting there!\n\nHe counter-attacks!\nHe strikes for " +str(damage) + " damage!\nOuch! That hurt.\nYou have been defeated.\nYou're done, dead, finito.\nThe world is a dreary, hopeless place.")
 							game = "over"
 
 				else:
@@ -713,7 +713,6 @@ def startGame():
 						repaint(bg)
 						replaceBG(bg, gameOverBG)
 						repaint(bg)
-
 						play(gameOverSound)
 						showInformation("You swing your fists!\nYou connect for " + str(damageGiven) + " damage!\nErgamoth has " + str(bossHitpoints) + " hit points remaining.\nYou're getting there!\nErgamoth counter-attacks!\nHe strikes for " +str(damageReceived) + " damage!\nOuch. That hurt.\nYou have been defeated.\nYou're done, dead, finito.\nThe world is a dreary, hopeless place.")
 						game = "over"
